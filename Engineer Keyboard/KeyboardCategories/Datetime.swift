@@ -1,11 +1,4 @@
 //
-//  DatetimeCategoryView.swift
-//  Engineer Keyboard
-//
-//  Created by An So on 2025-05-11.
-//
-
-//
 //  Datetime.swift
 //  com.angdasoft.engrkb
 //

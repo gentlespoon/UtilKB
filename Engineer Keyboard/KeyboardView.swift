@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum KeyboardCategory: String, CaseIterable {
+  case none = "None"
+  case datetime = "Date & Time"
+  case random = "Random"
+  case encodeDecode = "Encode & Decode"
+}
+
 struct KeyboardView: View {
   let insertText: (String) -> Void
   @State var activeCategory: KeyboardCategory = {
@@ -29,9 +36,10 @@ struct KeyboardView: View {
     .buttonStyle(.bordered)
     .frame(maxWidth: .infinity, minHeight: 250, maxHeight: 300)
     .background(
-      Color(hex: colorScheme == .dark ?
-        KeyboardContext.backgroundColor.dark.rawValue :
-        KeyboardContext.backgroundColor.light.rawValue
+      Color(
+        hex: colorScheme == .dark
+          ? KeyboardContext.backgroundColor.dark.rawValue
+          : KeyboardContext.backgroundColor.light.rawValue
       )
       .ignoresSafeArea()
     )
@@ -67,8 +75,11 @@ struct KeyboardView: View {
       if activeCategory == .datetime {
         DatetimeCategoryView(insertText: insertText)
       }
-      if activeCategory == .uuid {
+      if activeCategory == .random {
         RandomCategoryView(insertText: insertText)
+      }
+      if activeCategory == .encodeDecode {
+        EncodeDecodeCategoryView(insertText: insertText)
       }
       Spacer()
     }
@@ -76,20 +87,18 @@ struct KeyboardView: View {
 
   var kbCategorySelector: some View {
     List {
-      Button {
-        activeCategory = .datetime
-      } label: {
-        HStack {
-          Text("Date & Time")
-          Spacer()
-        }
-      }
-      Button {
-        activeCategory = .uuid
-      } label: {
-        HStack {
-          Text("Random")
-          Spacer()
+      ForEach(KeyboardCategory.allCases, id: \.self) { category in
+        if category == .none {
+          EmptyView()
+        } else {
+          Button {
+            activeCategory = category
+          } label: {
+            HStack {
+              Text(category.rawValue)
+              Spacer()
+            }
+          }
         }
       }
     }
