@@ -7,7 +7,14 @@
 
 import SwiftUI
 
+
+enum UUIDv4Case: String, CaseIterable {
+  case upper = "UPPERCASE"
+  case lower = "lowercase"
+}
+
 struct RandomCategoryView: KeyboardCategoryView {
+  @StateObject private var settings = KeyboardSettings.shared
   let insertText: (String) -> Void
 
   var body: some View {
@@ -20,16 +27,9 @@ struct RandomCategoryView: KeyboardCategoryView {
 
   // MARK: UUIDv4
 
-  enum UUIDv4Case: String, CaseIterable {
-    case upper = "UPPERCASE"
-    case lower = "lowercase"
-  }
-
-  @State var uuidv4Case: UUIDv4Case = .upper
-
   func generateUUIDv4() -> String {
     var uuidString = UUID().uuidString
-    if uuidv4Case == .lower {
+    if settings.uuidv4Case == .lower {
       uuidString = uuidString.lowercased()
     }
     return uuidString
@@ -40,7 +40,7 @@ struct RandomCategoryView: KeyboardCategoryView {
       VStack(alignment: .leading) {
         Text("UUID v4")
         Divider()
-        Picker(selection: $uuidv4Case) {
+        Picker(selection: $settings.uuidv4Case) {
           ForEach(UUIDv4Case.allCases, id: \.self) { s in
             Text(s.rawValue)
           }
@@ -48,7 +48,6 @@ struct RandomCategoryView: KeyboardCategoryView {
           Text("Letter case")
         }
       }
-
     } label: {
       Button("UUID v4") {
         insertText(generateUUIDv4())

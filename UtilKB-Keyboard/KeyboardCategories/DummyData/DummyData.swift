@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DummyDataCategoryView: KeyboardCategoryView {
+  @StateObject private var settings = KeyboardSettings.shared
   let insertText: (String) -> Void
 
   var body: some View {
@@ -21,20 +22,18 @@ struct DummyDataCategoryView: KeyboardCategoryView {
 
   // MARK: Lorem ipsum
 
-  @State var loremIpsumCount: Int = 1
-
   var loremIpsumView: some View {
     DisclosureGroup {
       VStack(alignment: .leading) {
         Text("Lorem ipsum")
         Divider()
-        Stepper(value: $loremIpsumCount, in: 1...10) {
-          Text("Paragraphs: \(loremIpsumCount)")
+        Stepper(value: $settings.loremIpsumCount, in: 1...10) {
+          Text("Paragraphs: \(settings.loremIpsumCount)")
         }
       }
     } label: {
       Button("Lorem ipsum") {
-        insertText(generateLoremIpsum(count: loremIpsumCount))
+        insertText(generateLoremIpsum(count: settings.loremIpsumCount))
       }
     }
   }
@@ -47,38 +46,42 @@ struct DummyDataCategoryView: KeyboardCategoryView {
 
   // MARK: Dummy identity
 
-  @State var dummyIdCountry: DummyIdCountry = .UK
-  @State var dummyId: [(String, String)] = DummyDataCategoryView.generateDummyIdentity(.UK)
+  @State var dummyId = [(String, String)]()
 
   var dummyIdentityView: some View {
     DisclosureGroup("Dummy Identity and Address") {
       VStack(alignment: .leading) {
         HStack {
-          Picker(selection: $dummyIdCountry) {
+          Picker(selection: $settings.dummyIdCountry) {
             ForEach(DummyIdCountry.allCases, id: \.self) { country in
               Text(country.rawValue)
             }
           } label: {
             Text("Country")
           }
-          .onChange(of: dummyIdCountry) { oldValue, newValue in
-            dummyId = DummyDataCategoryView.generateDummyIdentity(dummyIdCountry)
+          .onChange(of: settings.dummyIdCountry) { oldValue, newValue in
+            dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
           }
         }
         Button("Shuffle data") {
-          dummyId = DummyDataCategoryView.generateDummyIdentity(dummyIdCountry)
+          dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
         }
         Divider()
-        ForEach(dummyId.indices, id: \.self) { index in
-          HStack {
-            Text(dummyId[index].0)
-            Spacer()
-            Button(dummyId[index].1) {
-              insertText(dummyId[index].1)
+        if dummyId.count > 0 {
+          ForEach(dummyId.indices, id: \.self) { index in
+            HStack {
+              Text(dummyId[index].0)
+              Spacer()
+              Button(dummyId[index].1) {
+                insertText(dummyId[index].1)
+              }
             }
           }
         }
       }
+    }
+    .onAppear {
+      dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
     }
   }
 

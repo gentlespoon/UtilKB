@@ -17,14 +17,7 @@ enum KeyboardCategory: String, CaseIterable {
 
 struct KeyboardView: View {
   let insertText: (String) -> Void
-  @State var activeCategory: KeyboardCategory = {
-    if let savedCategory = UserDefaults.standard.string(forKey: "lastActiveCategory"),
-      let category = KeyboardCategory(rawValue: savedCategory)
-    {
-      return category
-    }
-    return .none
-  }()
+  @StateObject private var settings = KeyboardSettings.shared
   @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
@@ -43,18 +36,15 @@ struct KeyboardView: View {
       )
       .ignoresSafeArea()
     )
-    .onChange(of: activeCategory) { oldCategory, newCategory in
-      UserDefaults.standard.set(newCategory.rawValue, forKey: "lastActiveCategory")
-    }
   }
 
   var controlBar: some View {
     HStack(spacing: 8) {
       Button("\(Image(systemName: "list.bullet"))") {
-        activeCategory = .none
+        settings.activeCategory = .none
       }
-      .foregroundStyle(activeCategory == .none ? Color.gray : Color.primary)
-      .disabled(activeCategory == .none)
+      .foregroundStyle(settings.activeCategory == .none ? Color.gray : Color.primary)
+      .disabled(settings.activeCategory == .none)
       Button(action: { insertText(" ") }) {
         Text("space").frame(minWidth: 0, maxWidth: .infinity)
       }
@@ -79,19 +69,19 @@ struct KeyboardView: View {
 
   var keyboardBody: some View {
     VStack {
-      if activeCategory == .none {
+      if settings.activeCategory == .none {
         kbCategorySelector
       }
-      if activeCategory == .datetime {
+      if settings.activeCategory == .datetime {
         DatetimeCategoryView(insertText: insertText)
       }
-      if activeCategory == .random {
+      if settings.activeCategory == .random {
         RandomCategoryView(insertText: insertText)
       }
-      if activeCategory == .encodeDecode {
+      if settings.activeCategory == .encodeDecode {
         EncodeDecodeCategoryView(insertText: insertText)
       }
-      if activeCategory == .dummy {
+      if settings.activeCategory == .dummy {
         DummyDataCategoryView(insertText: insertText)
       }
     }
@@ -105,7 +95,7 @@ struct KeyboardView: View {
           EmptyView()
         } else {
           Button {
-            activeCategory = category
+            settings.activeCategory = category
           } label: {
             HStack {
               Text(category.rawValue)

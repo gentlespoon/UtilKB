@@ -7,11 +7,36 @@
 
 import SwiftUI
 
+enum EpochSeconds: String, CaseIterable {
+  case s = "s"
+  case ms = "ms"
+}
+
+enum ISO8601Timezone: String, CaseIterable {
+  case utc = "UTC"
+  case local = "local"
+}
+
+enum ISO8601Format: String, CaseIterable {
+  case simple = "Simple"
+  case custom = "Custom"
+}
+
+enum ISO8601Offset: String, CaseIterable {
+  case p0000 = "+0000"
+  case z = "Z"
+}
+
+enum ISO8601Seconds: String, CaseIterable {
+  case s = "s"
+  case ms = "ms"
+}
+
+
 struct DatetimeCategoryView: KeyboardCategoryView {
+  @StateObject private var settings = KeyboardSettings.shared
   let insertText: (String) -> Void
   @Environment(\.colorScheme) var colorScheme
-
-  @State var width: CGFloat = .infinity
 
   var body: some View {
     List {
@@ -22,9 +47,6 @@ struct DatetimeCategoryView: KeyboardCategoryView {
     }
     .buttonStyle(.bordered)
     .listStyle(.plain)
-    .onAppear {
-      width = UIScreen.main.bounds.size.width
-    }
   }
 
   func isValidDateFormat(_ format: String) -> Bool {
@@ -35,18 +57,11 @@ struct DatetimeCategoryView: KeyboardCategoryView {
 
   // MARK: Epoch
 
-  enum EpochSeconds: String, CaseIterable {
-    case s = "s"
-    case ms = "ms"
-  }
-
-  @State var epochSeconds: EpochSeconds = .s
-
   func generateEpochString() -> String {
     return String(
       Int(
         Date()
-          .timeIntervalSince1970 * (epochSeconds == .ms ? 1000 : 1)))
+          .timeIntervalSince1970 * (settings.epochSeconds == .ms ? 1000 : 1)))
   }
 
   var epochView: some View {
@@ -54,7 +69,7 @@ struct DatetimeCategoryView: KeyboardCategoryView {
       VStack(alignment: .leading) {
         Text("Epoch Unix Timestamp")
         Divider()
-        Picker(selection: $epochSeconds) {
+        Picker(selection: $settings.epochSeconds) {
           ForEach(EpochSeconds.allCases, id: \.self) { s in
             Text(s.rawValue)
           }
@@ -62,7 +77,6 @@ struct DatetimeCategoryView: KeyboardCategoryView {
           Text("Accuracy")
         }
       }
-
     } label: {
       Button(generateEpochString()) {
         insertText(generateEpochString())
@@ -70,51 +84,26 @@ struct DatetimeCategoryView: KeyboardCategoryView {
     }
   }
 
+  
   // MARK: ISO 8601 Date Time
-
-  enum ISO8601Timezone: String, CaseIterable {
-    case utc = "UTC"
-    case local = "local"
-  }
-
-  enum ISO8601Format: String, CaseIterable {
-    case simple = "Simple"
-    case custom = "Custom"
-  }
-
-  enum ISO8601Offset: String, CaseIterable {
-    case p0000 = "+0000"
-    case z = "Z"
-  }
-
-  enum ISO8601Seconds: String, CaseIterable {
-    case s = "s"
-    case ms = "ms"
-  }
-
-  @State var iso8601tz: ISO8601Timezone = .local
-  @State var iso8601format: ISO8601Format = .simple
-  @State var iso8601s: ISO8601Seconds = .s
-  @State var iso8601os: ISO8601Offset = .p0000
-  @State var iso8601customFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-
+  
   func generateISO8601String() -> String {
     let formatter = DateFormatter()
     var format = ""
     formatter.locale = Locale(identifier: "en_US_POSIX")
-    formatter.timeZone = iso8601tz == .utc ? TimeZone(identifier: "UTC") : TimeZone.current
-    if iso8601format == .simple {
+    formatter.timeZone = settings.iso8601tz == .utc ? TimeZone(identifier: "UTC") : TimeZone.current
+    if settings.iso8601format == .simple {
       format = "yyyy-MM-dd'T'HH:mm:ss"
-      if iso8601s == .ms {
+      if settings.iso8601s == .ms {
         format += ".SSS"
       }
-      if iso8601os == .z {
+      if settings.iso8601os == .z {
         format += "'Z'"
       } else {
         format += "Z"
       }
     } else {
-      format = iso8601customFormat
+      format = settings.iso8601customFormat
     }
     formatter.dateFormat = format
     return formatter.string(from: Date())
@@ -125,31 +114,30 @@ struct DatetimeCategoryView: KeyboardCategoryView {
       VStack(alignment: .leading) {
         Text("ISO 8601 / RFC 3339")
         Divider()
-        Picker(selection: $iso8601tz) {
+        Picker(selection: $settings.iso8601tz) {
           ForEach(ISO8601Timezone.allCases, id: \.self) { s in
             Text(s.rawValue)
           }
         } label: {
           Text("Timezone")
         }
-        Picker(selection: $iso8601format) {
+        Picker(selection: $settings.iso8601format) {
           ForEach(ISO8601Format.allCases, id: \.self) { s in
             Text(s.rawValue)
           }
         } label: {
           Text("Format")
         }
-        if iso8601format == .simple {
-          // simple formatting
-          Picker(selection: $iso8601s) {
+        if settings.iso8601format == .simple {
+          Picker(selection: $settings.iso8601s) {
             ForEach(ISO8601Seconds.allCases, id: \.self) { s in
               Text(s.rawValue)
             }
           } label: {
             Text("Accuracy")
           }
-          if iso8601tz == .utc {
-            Picker(selection: $iso8601os) {
+          if settings.iso8601tz == .utc {
+            Picker(selection: $settings.iso8601os) {
               ForEach(ISO8601Offset.allCases, id: \.self) { s in
                 Text(s.rawValue)
               }
@@ -158,10 +146,7 @@ struct DatetimeCategoryView: KeyboardCategoryView {
             }
           }
         } else {
-          // custom formatting
-          TextField("Custom format", text: $iso8601customFormat)
-          // BUT: If we are the keyboard, how can a user type a format string here?
-          //      For now just prompt the user to paste...
+          TextField("Custom format", text: $settings.iso8601customFormat)
           Text("Paste a Swift DateFormatter string here.").font(.caption)
         }
       }
