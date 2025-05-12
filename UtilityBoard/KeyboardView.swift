@@ -1,6 +1,6 @@
 //
 //  KeyboardView.swift
-//  com.angdasoft.engrkb
+//  UtilityBoard
 //
 //  Created by An So on 2025-05-11.
 //
@@ -43,7 +43,7 @@ struct KeyboardView: View {
       )
       .ignoresSafeArea()
     )
-    .onChange(of: activeCategory) { newCategory in
+    .onChange(of: activeCategory) { oldCategory, newCategory in
       UserDefaults.standard.set(newCategory.rawValue, forKey: "lastActiveCategory")
     }
   }

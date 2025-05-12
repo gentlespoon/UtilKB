@@ -1,3 +1,10 @@
+//
+//  Color+Hex.swift
+//  UtilityBoard
+//
+//  Created by An So on 2025-05-12.
+//
+
 import SwiftUI
 
 extension Color {

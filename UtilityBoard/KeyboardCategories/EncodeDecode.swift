@@ -1,6 +1,6 @@
 //
 //  EncodeDecode.swift
-//  com.angdasoft.engrkb
+//  UtilityBoard
 //
 //  Created by An So on 2025-05-11.
 //
@@ -43,9 +43,12 @@ struct EncodeDecodeCategoryView: KeyboardCategoryView {
               insertText(decoded)
             }
           } label: {
-            Text(base64EncodedString == "" ? "Decode" : decodeBase64(base64EncodedString) ?? "Invalid base64")
-              .frame(width: 100)
-              .lineLimit(1)
+            Text(
+              base64EncodedString == ""
+                ? "Decode" : decodeBase64(base64EncodedString) ?? "Invalid base64"
+            )
+            .frame(width: 100)
+            .lineLimit(1)
           }
         }
       }

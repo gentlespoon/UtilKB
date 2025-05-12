@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9C4D96E12DD1557F0039C227"
-               BuildableName = "Engineer Keyboard.appex"
-               BlueprintName = "Engineer Keyboard"
-               ReferencedContainer = "container:Engineer Keyboard.xcodeproj">
+               BuildableName = "UtilityBoard.appex"
+               BlueprintName = "UtilityBoard"
+               ReferencedContainer = "container:UtilityBoard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,9 +31,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9C4D96CF2DD155250039C227"
-               BuildableName = "com.angdasoft.engrkb.app"
-               BlueprintName = "com.angdasoft.engrkb"
-               ReferencedContainer = "container:Engineer Keyboard.xcodeproj">
+               BuildableName = "com.angdasoft.utilkb.app"
+               BlueprintName = "com.angdasoft.utilkb"
+               ReferencedContainer = "container:UtilityBoard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9C4D96CF2DD155250039C227"
-            BuildableName = "com.angdasoft.engrkb.app"
-            BlueprintName = "com.angdasoft.engrkb"
-            ReferencedContainer = "container:Engineer Keyboard.xcodeproj">
+            BuildableName = "com.angdasoft.utilkb.app"
+            BlueprintName = "com.angdasoft.utilkb"
+            ReferencedContainer = "container:UtilityBoard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -81,9 +81,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9C4D96CF2DD155250039C227"
-            BuildableName = "com.angdasoft.engrkb.app"
-            BlueprintName = "com.angdasoft.engrkb"
-            ReferencedContainer = "container:Engineer Keyboard.xcodeproj">
+            BuildableName = "com.angdasoft.utilkb.app"
+            BlueprintName = "com.angdasoft.utilkb"
+            ReferencedContainer = "container:UtilityBoard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

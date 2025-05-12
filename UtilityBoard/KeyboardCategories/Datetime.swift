@@ -1,6 +1,6 @@
 //
 //  Datetime.swift
-//  com.angdasoft.engrkb
+//  UtilityBoard
 //
 //  Created by An So on 2025-05-11.
 //
@@ -26,9 +26,7 @@ struct DatetimeCategoryView: KeyboardCategoryView {
       width = UIScreen.main.bounds.size.width
     }
   }
-  
-  
-  
+
   func isValidDateFormat(_ format: String) -> Bool {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = format
