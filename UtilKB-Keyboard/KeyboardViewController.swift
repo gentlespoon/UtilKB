@@ -16,7 +16,7 @@ class KeyboardViewController: UIInputViewController {
 
     let keyboard = KeyboardView { [weak self] text in
       switch text {
-      case "":
+      case "[delete]":
         self?.textDocumentProxy.deleteBackward()
       case "[undo]":
         if self?.undoStack.count ?? 0 > 0 {

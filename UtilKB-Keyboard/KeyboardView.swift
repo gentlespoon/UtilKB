@@ -64,7 +64,7 @@ struct KeyboardView: View {
           .foregroundStyle(.red)
       }
       .tint(.red)
-      Button(action: { insertText("") }) {
+      Button(action: { insertText("[delete]") }) {
         Text("\(Image(systemName: "delete.left"))")
           .foregroundStyle(.red)
       }
@@ -115,7 +115,8 @@ struct KeyboardView: View {
         }
       }
     }
-    .buttonStyle(.plain)
+    .buttonStyle(.borderless)
+    .foregroundStyle(.primary)
     .listStyle(.plain)
   }
 }

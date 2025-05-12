@@ -20,36 +20,46 @@ struct EncodeDecodeCategoryView: KeyboardCategoryView {
 
   // MARK: UUIDv4
 
-  @State var base64PlainString: String = ""
-  @State var base64EncodedString: String = ""
+  @State var base64EncodeInput: String = ""
+  @State var base64DecodeInput: String = ""
+
+  @State var base64EncodeOutput: String = ""
+  @State var base64DecodeOutput: String = ""
 
   var base64View: some View {
     DisclosureGroup("Base64") {
       VStack(alignment: .leading) {
         HStack {
-          TextField("Plain text", text: $base64PlainString)
+          TextField("Plain text", text: $base64EncodeInput)
+            .onChange(of: base64EncodeInput) {
+              base64EncodeOutput = encodeBase64(base64EncodeInput)
+            }
           Button {
-            insertText(encodeBase64(base64PlainString))
+            insertText(base64EncodeOutput)
           } label: {
-            Text(base64PlainString == "" ? "Encode" : encodeBase64(base64PlainString))
+            Text(base64EncodeInput == "" ? "Encode" : base64EncodeOutput)
               .frame(width: 100)
               .lineLimit(1)
           }
+          .disabled(base64EncodeInput == "")
         }
         HStack {
-          TextField("Encoded text", text: $base64EncodedString)
-          Button {
-            if let decoded = decodeBase64(base64EncodedString) {
-              insertText(decoded)
+          TextField("Encoded text", text: $base64DecodeInput)
+            .onChange(of: base64DecodeInput) {
+              base64DecodeOutput = decodeBase64(base64DecodeInput) ?? ""
             }
+          Button {
+            insertText(base64DecodeOutput)
           } label: {
             Text(
-              base64EncodedString == ""
-                ? "Decode" : decodeBase64(base64EncodedString) ?? "Invalid base64"
+              base64DecodeInput == ""
+                ? "Decode"
+                : (base64DecodeOutput == "" ? "Invalid base64" : base64DecodeOutput)
             )
             .frame(width: 100)
             .lineLimit(1)
           }
+          .disabled(base64DecodeInput == "" || base64DecodeOutput == "")
         }
       }
     }
