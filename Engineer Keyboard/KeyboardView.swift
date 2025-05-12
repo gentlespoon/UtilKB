@@ -27,7 +27,7 @@ struct KeyboardView: View {
     }
     .padding(5)
     .buttonStyle(.bordered)
-    .frame(maxWidth: .infinity, minHeight: 300, maxHeight: 500)
+    .frame(maxWidth: .infinity, minHeight: 250, maxHeight: 300)
     .background(
       Color(hex: colorScheme == .dark ?
         KeyboardContext.backgroundColor.dark.rawValue :

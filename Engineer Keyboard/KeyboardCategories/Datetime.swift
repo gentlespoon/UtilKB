@@ -22,14 +22,24 @@ struct DatetimeCategoryView: KeyboardCategoryView {
 
   var body: some View {
     List {
+      datetimeView
       epochView
       isoView
+      urlFriendlyDateView
     }
     .buttonStyle(.bordered)
     .listStyle(.plain)
     .onAppear {
       width = UIScreen.main.bounds.size.width
     }
+  }
+  
+  
+  
+  func isValidDateFormat(_ format: String) -> Bool {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = format
+    return dateFormatter.date(from: format) != nil
   }
 
   // MARK: Epoch
@@ -61,7 +71,7 @@ struct DatetimeCategoryView: KeyboardCategoryView {
           Text("Accuracy")
         }
       }
-      
+
     } label: {
       Button(generateEpochString()) {
         insertText(generateEpochString())
@@ -69,10 +79,16 @@ struct DatetimeCategoryView: KeyboardCategoryView {
     }
   }
 
-  // MARK: ISO8601
+  // MARK: ISO 8601 Date Time
+
   enum ISO8601Timezone: String, CaseIterable {
     case utc = "UTC"
     case local = "local"
+  }
+
+  enum ISO8601Format: String, CaseIterable {
+    case simple = "Simple"
+    case custom = "Custom"
   }
 
   enum ISO8601Offset: String, CaseIterable {
@@ -85,27 +101,29 @@ struct DatetimeCategoryView: KeyboardCategoryView {
     case ms = "ms"
   }
 
-  @State var iso8601s: ISO8601Seconds = .s
   @State var iso8601tz: ISO8601Timezone = .local
+  @State var iso8601format: ISO8601Format = .simple
+  @State var iso8601s: ISO8601Seconds = .s
   @State var iso8601os: ISO8601Offset = .p0000
+  @State var iso8601customFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 
   func generateISO8601String() -> String {
     let formatter = DateFormatter()
-    var format = "yyyy-MM-dd'T'HH:mm:ss"
+    var format = ""
     formatter.locale = Locale(identifier: "en_US_POSIX")
-    if iso8601s == .ms {
-      format += ".SSS"
-    }
-    if iso8601tz == .utc {
-      formatter.timeZone = TimeZone(identifier: "UTC")
+    formatter.timeZone = iso8601tz == .utc ? TimeZone(identifier: "UTC") : TimeZone.current
+    if iso8601format == .simple {
+      format = "yyyy-MM-dd'T'HH:mm:ss"
+      if iso8601s == .ms {
+        format += ".SSS"
+      }
       if iso8601os == .z {
         format += "'Z'"
       } else {
         format += "Z"
       }
     } else {
-      formatter.timeZone = TimeZone.current
-      format += "Z"
+      format = iso8601customFormat
     }
     formatter.dateFormat = format
     return formatter.string(from: Date())
@@ -116,13 +134,6 @@ struct DatetimeCategoryView: KeyboardCategoryView {
       VStack(alignment: .leading) {
         Text("ISO 8601 / RFC 3339")
         Divider()
-        Picker(selection: $iso8601s) {
-          ForEach(ISO8601Seconds.allCases, id: \.self) { s in
-            Text(s.rawValue)
-          }
-        } label: {
-          Text("Accuracy")
-        }
         Picker(selection: $iso8601tz) {
           ForEach(ISO8601Timezone.allCases, id: \.self) { s in
             Text(s.rawValue)
@@ -130,20 +141,96 @@ struct DatetimeCategoryView: KeyboardCategoryView {
         } label: {
           Text("Timezone")
         }
-        if iso8601tz == .utc {
-          Picker(selection: $iso8601os) {
-            ForEach(ISO8601Offset.allCases, id: \.self) { s in
+        Picker(selection: $iso8601format) {
+          ForEach(ISO8601Format.allCases, id: \.self) { s in
+            Text(s.rawValue)
+          }
+        } label: {
+          Text("Format")
+        }
+        if iso8601format == .simple {
+          // simple formatting
+          Picker(selection: $iso8601s) {
+            ForEach(ISO8601Seconds.allCases, id: \.self) { s in
               Text(s.rawValue)
             }
           } label: {
-            Text("Offset notation")
+            Text("Accuracy")
           }
+          if iso8601tz == .utc {
+            Picker(selection: $iso8601os) {
+              ForEach(ISO8601Offset.allCases, id: \.self) { s in
+                Text(s.rawValue)
+              }
+            } label: {
+              Text("Offset notation")
+            }
+          }
+        } else {
+          // custom formatting
+          TextField("Custom format", text: $iso8601customFormat)
+          // BUT: If we are the keyboard, how can a user type a format string here?
+          //      For now just prompt the user to paste...
+          Text("Paste a Swift DateFormatter string here.").font(.caption)
         }
       }
     } label: {
-        Button(generateISO8601String()) {
-          insertText(generateISO8601String())
+      Button(generateISO8601String()) {
+        insertText(generateISO8601String())
+      }
+    }
+  }
+
+  // MARK: Date Time
+
+  func generateDateTimeString(format: String, timezone: ISO8601Timezone = .local) -> String {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.timeZone = timezone == .utc ? TimeZone(identifier: "UTC") : TimeZone.current
+    formatter.dateFormat = format
+    return formatter.string(from: Date())
+  }
+
+  @State var urlFriendlyCustomFormat: String = "yyyy-MM-dd'T'HH-mm-ss'Z'"
+
+  var urlFriendlyDateView: some View {
+    DisclosureGroup {
+      VStack(alignment: .leading) {
+        Text("URL-friendly Date Time String")
+        Divider()
+        TextField("Custom format", text: $urlFriendlyCustomFormat)
+        Text("Pastes a Swift DateFormatter string here.").font(.caption)
+      }
+    } label: {
+      Button(generateDateTimeString(format: urlFriendlyCustomFormat, timezone: .utc)) {
+        insertText(generateDateTimeString(format: urlFriendlyCustomFormat, timezone: .utc))
+      }
+    }
+  }
+
+  // MARK: Date
+
+  @State var customDateFormat: String = "yyyy-MM-dd"
+  @State var customTimeFormat: String = "HH:mm:ss"
+
+  var datetimeView: some View {
+    DisclosureGroup {
+      VStack(alignment: .leading) {
+        Text("Date Time")
+        Divider()
+        TextField("Custom Date format", text: $customDateFormat)
+        TextField("Custom Time format", text: $customTimeFormat)
+        Text("Pastes a Swift DateFormatter string here.").font(.caption)
+      }
+    } label: {
+      HStack {
+        Button(generateDateTimeString(format: customDateFormat, timezone: .local)) {
+          insertText(generateDateTimeString(format: customDateFormat, timezone: .local))
         }
+        Button(generateDateTimeString(format: customTimeFormat, timezone: .local)) {
+          insertText(generateDateTimeString(format: customTimeFormat, timezone: .local))
+        }
+      }
     }
   }
 }
