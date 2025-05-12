@@ -48,19 +48,15 @@ struct DummyDataCategoryView: KeyboardCategoryView {
   // MARK: Dummy identity
 
   @State var dummyIdCountry: DummyIdCountry = .UK
-  @State var dummyId: [String: String] = generateDummyIdentity(.UK)
+  @State var dummyId: [(String, String)] = DummyDataCategoryView.generateDummyIdentity(.UK)
 
   var dummyIdentityView: some View {
     DisclosureGroup("Dummy Identity and Address") {
       VStack(alignment: .leading) {
         HStack {
-          Button("Shuffle data") {
-            dummyId = DummyDataCategoryView.generateDummyIdentity(dummyIdCountry)
-          }
-          Spacer()
           Picker(selection: $dummyIdCountry) {
-            ForEach(DummyIdCountry.allCases, id: \.self) { s in
-              Text(s.rawValue)
+            ForEach(DummyIdCountry.allCases, id: \.self) { country in
+              Text(country.rawValue)
             }
           } label: {
             Text("Country")
@@ -69,89 +65,89 @@ struct DummyDataCategoryView: KeyboardCategoryView {
             dummyId = DummyDataCategoryView.generateDummyIdentity(dummyIdCountry)
           }
         }
+        Button("Shuffle data") {
+          dummyId = DummyDataCategoryView.generateDummyIdentity(dummyIdCountry)
+        }
         Divider()
-        HStack {
-          Text("First name")
-          Spacer()
-          Button(dummyId["firstName"]!) {
-            insertText(dummyId["firstName"]!)
-          }
-        }
-        HStack {
-          Text("Last name")
-          Spacer()
-          Button(dummyId["lastName"]!) {
-            insertText(dummyId["lastName"]!)
-          }
-        }
-        HStack {
-          Text("Email")
-          Spacer()
-          Button(dummyId["email"]!) {
-            insertText(dummyId["email"]!)
-          }
-        }
-        HStack {
-          Text("Phone number")
-          Spacer()
-          Button(dummyId["phoneNumber"]!) {
-            insertText(dummyId["phoneNumber"]!)
-          }
-        }
-        HStack {
-          Text("Street address")
-          Spacer()
-          Button(dummyId["streetAddress"]!) {
-            insertText(dummyId["streetAddress"]!)
-          }
-        }
-        HStack {
-          Text("City")
-          Spacer()
-          Button(dummyId["city"]!) {
-            insertText(dummyId["city"]!)
-          }
-        }
-        HStack(alignment: .top) {
-          VStack(alignment: .leading) {
-            Text("State")
-            Text("Province/Region/Area").font(.caption)
-          }
-          Spacer()
-          Button(dummyId["state"]!) {
-            insertText(dummyId["state"]!)
-          }
-        }
-        HStack {
-          Text("Zip code")
-          Spacer()
-          Button(dummyId["zipCode"]!) {
-            insertText(dummyId["zipCode"]!)
-          }
-        }
-        HStack {
-          Text("Country")
-          Spacer()
-          Button(dummyIdCountry.rawValue) {
-            insertText(dummyIdCountry.rawValue)
+        ForEach(dummyId.indices, id: \.self) { index in
+          HStack {
+            Text(dummyId[index].0)
+            Spacer()
+            Button(dummyId[index].1) {
+              insertText(dummyId[index].1)
+            }
           }
         }
       }
     }
   }
 
-  static func generateDummyIdentity(_ country: DummyIdCountry) -> [String: String] {
-    var dummyId: [String: String] = [:]
-    dummyId["firstName"] = dummyIdList[country]!["firstNames"]!.randomElement()!
-    dummyId["lastName"] = dummyIdList[country]!["lastNames"]!.randomElement()!
-    dummyId["streetAddress"] = dummyIdList[country]!["streetAddresses"]!.randomElement()!
-    dummyId["city"] = dummyIdList[country]!["cities"]!.randomElement()!
-    dummyId["state"] = dummyIdList[country]!["states"]!.randomElement()!
-    dummyId["zipCode"] = dummyIdList[country]!["zipCodes"]!.randomElement()!
-    dummyId["phoneNumber"] = dummyIdList[country]!["phoneNumbers"]!.randomElement()!
-    dummyId["email"] =
-      "\(dummyId["firstName"]!).\(dummyId["lastName"]!).\(Int.random(in: 1..<100))@example.com"
-      .lowercased()
-    return dummyId
+  static func interpolate(template: String, replacements: [String: () -> String]) -> String {
+    let pattern = #"\{(\w+)\}"#
+    let regex = try! NSRegularExpression(pattern: pattern, options: [])
+
+    var result = template
+    print("Template: \(template)")  // Debug print
+    let matches = regex.matches(in: result, range: NSRange(result.startIndex..., in: result))
+      .reversed()
+    print("Found \(matches.count) matches")  // Debug print
+
+    for match in matches {
+      if let range = Range(match.range(at: 0), in: result),
+        let keyRange = Range(match.range(at: 1), in: result)
+      {
+        let key = String(result[keyRange])
+        print("Found key: \(key)")  // Debug print
+        if let replacement = replacements[key] {
+          let newValue = replacement()
+          print("Replacing with: \(newValue)")  // Debug print
+          result.replaceSubrange(range, with: newValue)
+        }
+      }
+    }
+
+    print("Final result: \(result)")  // Debug print
+    return result
+  }
+
+  static func generateDummyIdentity(_ country: DummyIdCountry) -> [(String, String)] {
+    var result: [(String, String)] = []
+
+    // Generate personal information
+    for (field, displayName) in piiFormats(country) {
+      if field == "email" {
+        continue
+      }
+      if let value = dummyIdList[country]?[field]?.randomElement() {
+        result.append((displayName, value))
+      }
+    }
+    // Generate email
+    if let givenName = result.first(where: {
+      $0.0 == piiFormats(country).first(where: { $0.0 == "givenname" })?.1
+    })?.1,
+      let surname = result.first(where: {
+        $0.0 == piiFormats(country).first(where: { $0.0 == "surname" })?.1
+      })?.1
+    {
+      let email = "\(givenName).\(surname).\(Int.random(in: 1..<100))@example.com".lowercased()
+      result.append((piiFormats(country).first(where: { $0.0 == "email" })?.1 ?? "Email", email))
+    }
+
+    // Generate address fields based on country format
+    for (field, displayName) in countryAddressFormats(country) {
+      if var value = dummyIdList[country]?[field]?.randomElement() {
+        if field == "street" {
+          value = interpolate(
+            template: value,
+            replacements: [
+              "number": { String(Int.random(in: 1...999)) }
+            ])
+        }
+        result.append((displayName, value))
+      }
+    }
+
+    return result
   }
 }
