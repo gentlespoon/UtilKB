@@ -7,17 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9C05CB652DD209000053BBC0 /* UtilityBoard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9C4D96E22DD1557F0039C227 /* UtilityBoard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9C08F0292DD210E200F004E3 /* UtilKB-keyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9C08F0222DD210E200F004E3 /* UtilKB-keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9C05CB5E2DD208380053BBC0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9C4D96C82DD155250039C227 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9C4D96E12DD1557F0039C227;
-			remoteInfo = UtilityBoard;
-		};
 		9C05CB612DD2083F0053BBC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9C4D96C82DD155250039C227 /* Project object */;
@@ -32,6 +25,13 @@
 			remoteGlobalIDString = 9C4D96E12DD1557F0039C227;
 			remoteInfo = UtilityBoard;
 		};
+		9C08F0272DD210E200F004E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C4D96C82DD155250039C227 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9C08F0212DD210E200F004E3;
+			remoteInfo = keyboard;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,7 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9C05CB652DD209000053BBC0 /* UtilityBoard.appex in Embed Foundation Extensions */,
+				9C08F0292DD210E200F004E3 /* UtilKB-keyboard.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,32 +49,55 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9C26D6062DD1786700601221 /* UtilityBoard App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UtilityBoard App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C4D96E22DD1557F0039C227 /* UtilityBoard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = UtilityBoard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C08F0222DD210E200F004E3 /* UtilKB-keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "UtilKB-keyboard.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C26D6062DD1786700601221 /* UtilKB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UtilKB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9C08F02A2DD210E200F004E3 /* Exceptions for "UtilKB-Keyboard" folder in "UtilKB-keyboard" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9C08F0212DD210E200F004E3 /* UtilKB-keyboard */;
+		};
+		9C08F0572DD21B8900F004E3 /* Exceptions for "UtilKB" folder in "UtilKB" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9C26D6052DD1786700601221 /* UtilKB */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9C26D6072DD1786700601221 /* UtilityBoard App */ = {
+		9C08F0232DD210E200F004E3 /* UtilKB-Keyboard */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "UtilityBoard App";
+			exceptions = (
+				9C08F02A2DD210E200F004E3 /* Exceptions for "UtilKB-Keyboard" folder in "UtilKB-keyboard" target */,
+			);
+			path = "UtilKB-Keyboard";
 			sourceTree = "<group>";
 		};
-		9C4D96E32DD1557F0039C227 /* UtilityBoard */ = {
+		9C26D6072DD1786700601221 /* UtilKB */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = UtilityBoard;
+			exceptions = (
+				9C08F0572DD21B8900F004E3 /* Exceptions for "UtilKB" folder in "UtilKB" target */,
+			);
+			path = UtilKB;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9C26D6032DD1786700601221 /* Frameworks */ = {
+		9C08F01F2DD210E200F004E3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C4D96DF2DD1557F0039C227 /* Frameworks */ = {
+		9C26D6032DD1786700601221 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -94,8 +117,8 @@
 		9C4D96C72DD155250039C227 = {
 			isa = PBXGroup;
 			children = (
-				9C4D96E32DD1557F0039C227 /* UtilityBoard */,
-				9C26D6072DD1786700601221 /* UtilityBoard App */,
+				9C26D6072DD1786700601221 /* UtilKB */,
+				9C08F0232DD210E200F004E3 /* UtilKB-Keyboard */,
 				9C05CB642DD209000053BBC0 /* Frameworks */,
 				9C4D96D12DD155250039C227 /* Products */,
 			);
@@ -104,8 +127,8 @@
 		9C4D96D12DD155250039C227 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9C4D96E22DD1557F0039C227 /* UtilityBoard.appex */,
-				9C26D6062DD1786700601221 /* UtilityBoard App.app */,
+				9C26D6062DD1786700601221 /* UtilKB.app */,
+				9C08F0222DD210E200F004E3 /* UtilKB-keyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,9 +136,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9C26D6052DD1786700601221 /* UtilityBoard App */ = {
+		9C08F0212DD210E200F004E3 /* UtilKB-keyboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C26D60E2DD1786800601221 /* Build configuration list for PBXNativeTarget "UtilityBoard App" */;
+			buildConfigurationList = 9C08F02B2DD210E200F004E3 /* Build configuration list for PBXNativeTarget "UtilKB-keyboard" */;
+			buildPhases = (
+				9C08F01E2DD210E200F004E3 /* Sources */,
+				9C08F01F2DD210E200F004E3 /* Frameworks */,
+				9C08F0202DD210E200F004E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9C08F0232DD210E200F004E3 /* UtilKB-Keyboard */,
+			);
+			name = "UtilKB-keyboard";
+			packageProductDependencies = (
+			);
+			productName = keyboard;
+			productReference = 9C08F0222DD210E200F004E3 /* UtilKB-keyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		9C26D6052DD1786700601221 /* UtilKB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9C26D60E2DD1786800601221 /* Build configuration list for PBXNativeTarget "UtilKB" */;
 			buildPhases = (
 				9C26D6022DD1786700601221 /* Sources */,
 				9C26D6032DD1786700601221 /* Frameworks */,
@@ -125,40 +170,19 @@
 			buildRules = (
 			);
 			dependencies = (
-				9C05CB5F2DD208380053BBC0 /* PBXTargetDependency */,
 				9C05CB622DD2083F0053BBC0 /* PBXTargetDependency */,
 				9C05CB672DD209000053BBC0 /* PBXTargetDependency */,
+				9C08F0282DD210E200F004E3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				9C26D6072DD1786700601221 /* UtilityBoard App */,
+				9C26D6072DD1786700601221 /* UtilKB */,
 			);
-			name = "UtilityBoard App";
+			name = UtilKB;
 			packageProductDependencies = (
 			);
 			productName = utilkb;
-			productReference = 9C26D6062DD1786700601221 /* UtilityBoard App.app */;
+			productReference = 9C26D6062DD1786700601221 /* UtilKB.app */;
 			productType = "com.apple.product-type.application";
-		};
-		9C4D96E12DD1557F0039C227 /* UtilityBoard */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9C4D96EB2DD1557F0039C227 /* Build configuration list for PBXNativeTarget "UtilityBoard" */;
-			buildPhases = (
-				9C4D96DE2DD1557F0039C227 /* Sources */,
-				9C4D96DF2DD1557F0039C227 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				9C4D96E32DD1557F0039C227 /* UtilityBoard */,
-			);
-			name = UtilityBoard;
-			packageProductDependencies = (
-			);
-			productName = UtilityBoard;
-			productReference = 9C4D96E22DD1557F0039C227 /* UtilityBoard.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -170,15 +194,15 @@
 				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
-					9C26D6052DD1786700601221 = {
+					9C08F0212DD210E200F004E3 = {
 						CreatedOnToolsVersion = 16.3;
 					};
-					9C4D96E12DD1557F0039C227 = {
+					9C26D6052DD1786700601221 = {
 						CreatedOnToolsVersion = 16.3;
 					};
 				};
 			};
-			buildConfigurationList = 9C4D96CB2DD155250039C227 /* Build configuration list for PBXProject "UtilityBoard" */;
+			buildConfigurationList = 9C4D96CB2DD155250039C227 /* Build configuration list for PBXProject "UtilKB" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -192,13 +216,20 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9C4D96E12DD1557F0039C227 /* UtilityBoard */,
-				9C26D6052DD1786700601221 /* UtilityBoard App */,
+				9C26D6052DD1786700601221 /* UtilKB */,
+				9C08F0212DD210E200F004E3 /* UtilKB-keyboard */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9C08F0202DD210E200F004E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9C26D6042DD1786700601221 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -209,14 +240,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		9C26D6022DD1786700601221 /* Sources */ = {
+		9C08F01E2DD210E200F004E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C4D96DE2DD1557F0039C227 /* Sources */ = {
+		9C26D6022DD1786700601221 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -226,36 +257,96 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9C05CB5F2DD208380053BBC0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9C4D96E12DD1557F0039C227 /* UtilityBoard */;
-			targetProxy = 9C05CB5E2DD208380053BBC0 /* PBXContainerItemProxy */;
-		};
 		9C05CB622DD2083F0053BBC0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9C4D96E12DD1557F0039C227 /* UtilityBoard */;
 			targetProxy = 9C05CB612DD2083F0053BBC0 /* PBXContainerItemProxy */;
 		};
 		9C05CB672DD209000053BBC0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9C4D96E12DD1557F0039C227 /* UtilityBoard */;
 			targetProxy = 9C05CB662DD209000053BBC0 /* PBXContainerItemProxy */;
+		};
+		9C08F0282DD210E200F004E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9C08F0212DD210E200F004E3 /* UtilKB-keyboard */;
+			targetProxy = 9C08F0272DD210E200F004E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		9C08F02C2DD210E200F004E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = ML8TXBYB3Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "UtilKB-Keyboard/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = UtilKB;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angdasoft.utilkb.keyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9C08F02D2DD210E200F004E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = ML8TXBYB3Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "UtilKB-Keyboard/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = UtilKB;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angdasoft.utilkb.keyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		9C26D60F2DD1786800601221 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = ML8TXBYB3Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UtilKB/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UtilKB;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -266,7 +357,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.angdasoft.utilkb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -285,12 +376,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = ML8TXBYB3Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UtilKB/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UtilKB;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -301,7 +394,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.angdasoft.utilkb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -435,70 +528,19 @@
 			};
 			name = Release;
 		};
-		9C4D96EC2DD1557F0039C227 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ML8TXBYB3Y;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = UtilityBoard/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = UtilKB;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.angdasoft.utilkb.keyboard;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		9C4D96ED2DD1557F0039C227 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ML8TXBYB3Y;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = UtilityBoard/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = UtilKB;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.angdasoft.utilkb.keyboard;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9C26D60E2DD1786800601221 /* Build configuration list for PBXNativeTarget "UtilityBoard App" */ = {
+		9C08F02B2DD210E200F004E3 /* Build configuration list for PBXNativeTarget "UtilKB-keyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C08F02C2DD210E200F004E3 /* Debug */,
+				9C08F02D2DD210E200F004E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9C26D60E2DD1786800601221 /* Build configuration list for PBXNativeTarget "UtilKB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C26D60F2DD1786800601221 /* Debug */,
@@ -507,20 +549,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9C4D96CB2DD155250039C227 /* Build configuration list for PBXProject "UtilityBoard" */ = {
+		9C4D96CB2DD155250039C227 /* Build configuration list for PBXProject "UtilKB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C4D96D92DD155260039C227 /* Debug */,
 				9C4D96DA2DD155260039C227 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9C4D96EB2DD1557F0039C227 /* Build configuration list for PBXNativeTarget "UtilityBoard" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9C4D96EC2DD1557F0039C227 /* Debug */,
-				9C4D96ED2DD1557F0039C227 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

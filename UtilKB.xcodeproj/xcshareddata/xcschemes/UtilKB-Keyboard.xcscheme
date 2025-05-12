@@ -16,10 +16,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9C4D96E12DD1557F0039C227"
-               BuildableName = "UtilityBoard.appex"
-               BlueprintName = "UtilityBoard"
-               ReferencedContainer = "container:UtilityBoard.xcodeproj">
+               BlueprintIdentifier = "9C08F0212DD210E200F004E3"
+               BuildableName = "UtilKB-keyboard.appex"
+               BlueprintName = "UtilKB-keyboard"
+               ReferencedContainer = "container:UtilKB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,10 +30,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9C4D96CF2DD155250039C227"
-               BuildableName = "com.angdasoft.utilkb.app"
-               BlueprintName = "com.angdasoft.utilkb"
-               ReferencedContainer = "container:UtilityBoard.xcodeproj">
+               BlueprintIdentifier = "9C26D6052DD1786700601221"
+               BuildableName = "UtilKB.app"
+               BlueprintName = "UtilKB"
+               ReferencedContainer = "container:UtilKB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9C4D96CF2DD155250039C227"
-            BuildableName = "com.angdasoft.utilkb.app"
-            BlueprintName = "com.angdasoft.utilkb"
-            ReferencedContainer = "container:UtilityBoard.xcodeproj">
+            BlueprintIdentifier = "9C26D6052DD1786700601221"
+            BuildableName = "UtilKB.app"
+            BlueprintName = "UtilKB"
+            ReferencedContainer = "container:UtilKB.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -80,10 +80,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9C4D96CF2DD155250039C227"
-            BuildableName = "com.angdasoft.utilkb.app"
-            BlueprintName = "com.angdasoft.utilkb"
-            ReferencedContainer = "container:UtilityBoard.xcodeproj">
+            BlueprintIdentifier = "9C26D6052DD1786700601221"
+            BuildableName = "UtilKB.app"
+            BlueprintName = "UtilKB"
+            ReferencedContainer = "container:UtilKB.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

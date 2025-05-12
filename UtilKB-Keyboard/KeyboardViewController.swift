@@ -4,17 +4,28 @@
 //
 //  Created by An So on 2025-05-11.
 //
-import UIKit
+
 import SwiftUI
+import UIKit
 
 class KeyboardViewController: UIInputViewController {
+  var undoStack: [Int] = []
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     let keyboard = KeyboardView { [weak self] text in
-      if text == "" {
+      switch text {
+      case "":
         self?.textDocumentProxy.deleteBackward()
-      } else {
+      case "[undo]":
+        if self?.undoStack.count ?? 0 > 0 {
+          for _ in 0..<self!.undoStack.popLast()! {
+            self?.textDocumentProxy.deleteBackward()
+          }
+        }
+      default:
+        self?.undoStack.append(text.count)
         self?.textDocumentProxy.insertText(text)
       }
     }

@@ -10,8 +10,9 @@ import SwiftUI
 enum KeyboardCategory: String, CaseIterable {
   case none = "None"
   case datetime = "Date & Time"
-  case random = "Random"
+  case dummy = "Dummy Data"
   case encodeDecode = "Encode & Decode"
+  case random = "Random"
 }
 
 struct KeyboardView: View {
@@ -32,9 +33,8 @@ struct KeyboardView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
       controlBar
     }
-    .padding(5)
     .buttonStyle(.bordered)
-    .frame(maxWidth: .infinity, minHeight: 250, maxHeight: 300)
+    .frame(maxWidth: .infinity, minHeight: 280, maxHeight: 400)
     .background(
       Color(
         hex: colorScheme == .dark
@@ -50,21 +50,31 @@ struct KeyboardView: View {
 
   var controlBar: some View {
     HStack(spacing: 8) {
-      Button("category") {
+      Button("\(Image(systemName: "list.bullet"))") {
         activeCategory = .none
       }
+      .foregroundStyle(activeCategory == .none ? Color.gray : Color.primary)
       .disabled(activeCategory == .none)
       Button(action: { insertText(" ") }) {
         Text("space").frame(minWidth: 0, maxWidth: .infinity)
       }
+      .foregroundStyle(.foreground)
+      Button(action: { insertText("[undo]") }) {
+        Text("\(Image(systemName: "arrow.uturn.backward"))")
+          .foregroundStyle(.red)
+      }
+      .tint(.red)
       Button(action: { insertText("") }) {
-        Text("del").foregroundStyle(.red)
+        Text("\(Image(systemName: "delete.left"))")
+          .foregroundStyle(.red)
       }
       .tint(.red)
       Button("return") { insertText("\n") }
+        .foregroundStyle(.foreground)
     }
     .frame(maxWidth: .infinity)
     .frame(height: 44)
+    .padding(5)
   }
 
   var keyboardBody: some View {
@@ -81,8 +91,11 @@ struct KeyboardView: View {
       if activeCategory == .encodeDecode {
         EncodeDecodeCategoryView(insertText: insertText)
       }
-      Spacer()
+      if activeCategory == .dummy {
+        DummyDataCategoryView(insertText: insertText)
+      }
     }
+    .padding([.top, .bottom], 1)
   }
 
   var kbCategorySelector: some View {
@@ -102,7 +115,7 @@ struct KeyboardView: View {
         }
       }
     }
-    .buttonStyle(.borderless)
+    .buttonStyle(.plain)
     .listStyle(.plain)
   }
 }
