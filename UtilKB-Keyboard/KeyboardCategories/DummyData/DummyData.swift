@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct DummyDataCategoryView: KeyboardCategoryView {
   @StateObject private var settings = KeyboardSettings.shared
@@ -39,9 +40,17 @@ struct DummyDataCategoryView: KeyboardCategoryView {
   }
 
   func generateLoremIpsum(count: Int) -> String {
-    let loremIpsum =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    return (0..<count).map { _ in loremIpsum }.joined(separator: "\n\n")
+
+    // Always start with the first paragraph
+    var paragraphs = [loremIpsum[0]]
+
+    // Add random paragraphs from the rest
+    if count > 1 {
+      let remainingParagraphs = Array(loremIpsum.dropFirst())
+      paragraphs.append(contentsOf: (1..<count).map { _ in remainingParagraphs.randomElement()! })
+    }
+
+    return paragraphs.joined(separator: "\n\n")
   }
 
   // MARK: Dummy identity
@@ -57,15 +66,19 @@ struct DummyDataCategoryView: KeyboardCategoryView {
               Text(country.rawValue)
             }
           } label: {
-            Text("Country")
+            HStack {
+              Text("Country")
+              Spacer()
+              Button("Shuffle") {
+                dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
+              }
+            }
           }
           .onChange(of: settings.dummyIdCountry) { oldValue, newValue in
             dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
           }
         }
-        Button("Shuffle data") {
-          dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
-        }
+
         Divider()
         if dummyId.count > 0 {
           ForEach(dummyId.indices, id: \.self) { index in
@@ -88,66 +101,106 @@ struct DummyDataCategoryView: KeyboardCategoryView {
   static func interpolate(template: String, replacements: [String: () -> String]) -> String {
     let pattern = #"\{(\w+)\}"#
     let regex = try! NSRegularExpression(pattern: pattern, options: [])
-
     var result = template
-    print("Template: \(template)")  // Debug print
     let matches = regex.matches(in: result, range: NSRange(result.startIndex..., in: result))
       .reversed()
-    print("Found \(matches.count) matches")  // Debug print
-
     for match in matches {
       if let range = Range(match.range(at: 0), in: result),
         let keyRange = Range(match.range(at: 1), in: result)
       {
         let key = String(result[keyRange])
-        print("Found key: \(key)")  // Debug print
         if let replacement = replacements[key] {
           let newValue = replacement()
-          print("Replacing with: \(newValue)")  // Debug print
           result.replaceSubrange(range, with: newValue)
         }
       }
     }
-
-    print("Final result: \(result)")  // Debug print
     return result
+  }
+
+  static func transliterateToASCII(_ input: String, languageHint: DummyIdCountry? = nil) -> String {
+    let mutable = NSMutableString(string: input) as CFMutableString
+
+    // handle script-specific transformation
+    switch languageHint {
+    case .CN:
+      CFStringTransform(mutable, nil, kCFStringTransformToLatin, false)
+    case .JP:
+      return input
+    case .RU:
+      CFStringTransform(mutable, nil, kCFStringTransformToLatin, false)
+    default:
+      // Default: Try transliterating
+      CFStringTransform(mutable, nil, kCFStringTransformToLatin, false)
+    }
+
+    // strip diacritics
+    CFStringTransform(mutable, nil, kCFStringTransformStripCombiningMarks, false)
+
+    // keep only A-Z and a-z characters
+    let asciiOnly = (mutable as String)
+      .filter { $0.isASCII && $0.isLetter }
+
+    return asciiOnly.lowercased()
   }
 
   static func generateDummyIdentity(_ country: DummyIdCountry) -> [(String, String)] {
     var result: [(String, String)] = []
 
-    // Generate personal information
-    for (field, displayName) in piiFormats(country) {
-      if field == "email" {
-        continue
+    // Get random indices for consistent address components
+    let cityIndex = Int.random(in: 0..<(dummyIdList[country]?["city"]?.count ?? 0))
+
+    // Generate name components
+    let givenName = dummyIdList[country]?["givenname"]?.randomElement() ?? ""
+    let surname = dummyIdList[country]?["surname"]?.randomElement() ?? ""
+
+    // Get phonetic versions for email
+    let emailGivenName = DummyDataCategoryView.transliterateToASCII(
+      givenName, languageHint: country)
+    let emailSurname = DummyDataCategoryView.transliterateToASCII(surname, languageHint: country)
+
+    // Add PII fields
+    for (key, label) in piiFormats(country) {
+      switch key {
+      case "givenname":
+        result.append((label, givenName))
+      case "surname":
+        result.append((label, surname))
+      case "phone":
+        if let phone = dummyIdList[country]?["phone"]?.randomElement() {
+          result.append((label, phone))
+        }
+      case "email":
+        let email = "\(emailGivenName).\(emailSurname).\(Int.random(in: 1..<100))@example.com"
+          .lowercased()
+        result.append((label, email))
+      default:
+        break
       }
-      if let value = dummyIdList[country]?[field]?.randomElement() {
-        result.append((displayName, value))
-      }
-    }
-    // Generate email
-    if let givenName = result.first(where: {
-      $0.0 == piiFormats(country).first(where: { $0.0 == "givenname" })?.1
-    })?.1,
-      let surname = result.first(where: {
-        $0.0 == piiFormats(country).first(where: { $0.0 == "surname" })?.1
-      })?.1
-    {
-      let email = "\(givenName).\(surname).\(Int.random(in: 1..<100))@example.com".lowercased()
-      result.append((piiFormats(country).first(where: { $0.0 == "email" })?.1 ?? "Email", email))
     }
 
-    // Generate address fields based on country format
-    for (field, displayName) in countryAddressFormats(country) {
-      if var value = dummyIdList[country]?[field]?.randomElement() {
-        if field == "street" {
-          value = interpolate(
-            template: value,
-            replacements: [
-              "number": { String(Int.random(in: 1...999)) }
-            ])
+    // Add address fields
+    for (key, label) in countryAddressFormats(country) {
+      switch key {
+      case "street":
+        if let street = dummyIdList[country]?["street"]?.randomElement() {
+          let number = Int.random(in: 1...999)
+          result.append((label, street.replacingOccurrences(of: "{number}", with: "\(number)")))
         }
-        result.append((displayName, value))
+      case "city":
+        if let city = dummyIdList[country]?["city"]?[cityIndex] {
+          result.append((label, city))
+        }
+      case "state", "province", "prefecture", "region":
+        if let state = dummyIdList[country]?[key]?[cityIndex] {
+          result.append((label, state))
+        }
+      case "zipCode", "postcode", "postalCode":
+        if let code = dummyIdList[country]?[key]?[cityIndex] {
+          result.append((label, code))
+        }
+      default:
+        break
       }
     }
 
