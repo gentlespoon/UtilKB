@@ -101,9 +101,11 @@ struct DummyDataCategoryView: KeyboardCategoryView {
   static func interpolate(template: String, replacements: [String: () -> String]) -> String {
     let pattern = #"\{(\w+)\}"#
     let regex = try! NSRegularExpression(pattern: pattern, options: [])
+
     var result = template
     let matches = regex.matches(in: result, range: NSRange(result.startIndex..., in: result))
       .reversed()
+
     for match in matches {
       if let range = Range(match.range(at: 0), in: result),
         let keyRange = Range(match.range(at: 1), in: result)
@@ -115,6 +117,7 @@ struct DummyDataCategoryView: KeyboardCategoryView {
         }
       }
     }
+
     return result
   }
 
@@ -184,8 +187,12 @@ struct DummyDataCategoryView: KeyboardCategoryView {
       switch key {
       case "street":
         if let street = dummyIdList[country]?["street"]?.randomElement() {
-          let number = Int.random(in: 1...999)
-          result.append((label, street.replacingOccurrences(of: "{number}", with: "\(number)")))
+          let streetWithNumbers = interpolate(
+            template: street,
+            replacements: [
+              "number": { String(Int.random(in: 1...999)) }
+            ])
+          result.append((label, streetWithNumbers))
         }
       case "city":
         if let city = dummyIdList[country]?["city"]?[cityIndex] {

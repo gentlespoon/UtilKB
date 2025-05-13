@@ -24,7 +24,7 @@ struct RandomCategoryView: KeyboardCategoryView {
     .buttonStyle(.bordered)
     .listStyle(.plain)
   }
-
+  
   // MARK: UUIDv4
 
   func generateUUIDv4() -> String {

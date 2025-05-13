@@ -11,7 +11,7 @@ enum KeyboardCategory: String, CaseIterable {
   case none = "None"
   case datetime = "Date & Time"
   case dummy = "Dummy Data"
-  case encodeDecode = "Encode & Decode"
+  case encodeHash = "Encode & Hash"
   case random = "Random"
 }
 
@@ -78,8 +78,8 @@ struct KeyboardView: View {
       if settings.activeCategory == .random {
         RandomCategoryView(insertText: insertText)
       }
-      if settings.activeCategory == .encodeDecode {
-        EncodeDecodeCategoryView(insertText: insertText)
+      if settings.activeCategory == .encodeHash {
+        EncodeHashCategoryView(insertText: insertText)
       }
       if settings.activeCategory == .dummy {
         DummyDataCategoryView(insertText: insertText)
