@@ -9,23 +9,25 @@ import SwiftUI
 import UIKit
 
 class KeyboardViewController: UIInputViewController {
-  var undoStack: [Int] = []
+  var undoStack: [String] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     let keyboard = KeyboardView { [weak self] text in
+      self?.undoStack.append(self?.textDocumentProxy.documentContextBeforeInput ?? "")
       switch text {
       case "[delete]":
         self?.textDocumentProxy.deleteBackward()
       case "[undo]":
-        if self?.undoStack.count ?? 0 > 0 {
-          for _ in 0..<self!.undoStack.popLast()! {
-            self?.textDocumentProxy.deleteBackward()
-          }
+        _ = self?.undoStack.popLast()
+        while (self?.textDocumentProxy.hasText ?? false) {
+          self?.textDocumentProxy.deleteBackward()
+        }
+        if let previousText = self?.undoStack.popLast()  {
+          self?.textDocumentProxy.insertText(previousText)
         }
       default:
-        self?.undoStack.append(text.count)
         self?.textDocumentProxy.insertText(text)
       }
     }
