@@ -103,7 +103,7 @@ struct DatetimeCategoryView: KeyboardCategoryView {
       if settings.iso8601s == .ms {
         format += ".SSS"
       }
-      if settings.iso8601os == .z {
+      if settings.iso8601tz != .local && settings.iso8601os == .z {
         format += "'Z'"
       } else {
         format += "Z"

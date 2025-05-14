@@ -38,8 +38,6 @@ struct RandomCategoryView: KeyboardCategoryView {
   var uuidv4View: some View {
     DisclosureGroup {
       VStack(alignment: .leading) {
-        Text("UUID v4")
-        Divider()
         HStack {
           Text("Letter Case")
           Spacer()

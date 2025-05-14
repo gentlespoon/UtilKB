@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+  
   let userDefaultsShared: UserDefaults
 
   @State private var keyboardHeight: Double = 280
@@ -25,7 +26,6 @@ struct SettingsView: View {
         Slider(
           value: $keyboardHeight,
           in: 200...500,
-          step: 10,
           label: {}
         )
         .onChange(of: keyboardHeight) { oldValue, newValue in
