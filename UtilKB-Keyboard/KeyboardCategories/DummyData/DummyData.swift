@@ -26,15 +26,17 @@ struct DummyDataCategoryView: KeyboardCategoryView {
   var loremIpsumView: some View {
     DisclosureGroup {
       VStack(alignment: .leading) {
-        Text("Lorem ipsum")
-        Divider()
         Stepper(value: $settings.loremIpsumCount, in: 1...10) {
           Text("Paragraphs: \(settings.loremIpsumCount)")
         }
       }
     } label: {
-      Button("Lorem ipsum") {
-        insertText(generateLoremIpsum(count: settings.loremIpsumCount))
+      HStack {
+        Text("Placeholder Text")
+        Spacer()
+        Button("Lorem ipsum") {
+          insertText(generateLoremIpsum(count: settings.loremIpsumCount))
+        }
       }
     }
   }
@@ -58,7 +60,7 @@ struct DummyDataCategoryView: KeyboardCategoryView {
   @State var dummyId = [(String, String)]()
 
   var dummyIdentityView: some View {
-    DisclosureGroup("Dummy Identity and Address") {
+    DisclosureGroup {
       VStack(alignment: .leading) {
         HStack {
           Picker(selection: $settings.dummyIdCountry) {
@@ -66,13 +68,7 @@ struct DummyDataCategoryView: KeyboardCategoryView {
               Text(country.rawValue)
             }
           } label: {
-            HStack {
               Text("Country")
-              Spacer()
-              Button("Shuffle") {
-                dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
-              }
-            }
           }
           .onChange(of: settings.dummyIdCountry) { oldValue, newValue in
             dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
@@ -90,6 +86,14 @@ struct DummyDataCategoryView: KeyboardCategoryView {
               }
             }
           }
+        }
+      }
+    } label: {
+      HStack {
+        Text("Dummy Name and Address")
+        Spacer()
+        Button("\(Image(systemName: "arrow.clockwise"))") {
+          dummyId = DummyDataCategoryView.generateDummyIdentity(settings.dummyIdCountry)
         }
       }
     }

@@ -32,7 +32,6 @@ enum ISO8601Seconds: String, CaseIterable {
   case ms = "ms"
 }
 
-
 struct DatetimeCategoryView: KeyboardCategoryView {
   @StateObject private var settings = KeyboardSettings.shared
   let insertText: (String) -> Void
@@ -69,24 +68,31 @@ struct DatetimeCategoryView: KeyboardCategoryView {
       VStack(alignment: .leading) {
         Text("Epoch Unix Timestamp")
         Divider()
-        Picker(selection: $settings.epochSeconds) {
-          ForEach(EpochSeconds.allCases, id: \.self) { s in
-            Text(s.rawValue)
-          }
-        } label: {
+        HStack {
           Text("Accuracy")
+          Spacer()
+          Picker("", selection: $settings.epochSeconds) {
+            ForEach(EpochSeconds.allCases, id: \.self) { s in
+              Text(s.rawValue)
+            }
+          }
+          .pickerStyle(.segmented)
+          .fixedSize()
         }
       }
     } label: {
-      Button(generateEpochString()) {
-        insertText(generateEpochString())
+      HStack {
+        Text("Epoch Unix Timestamp")
+        Spacer()
+        Button(generateEpochString()) {
+          insertText(generateEpochString())
+        }
       }
     }
   }
 
-  
   // MARK: ISO 8601 Date Time
-  
+
   func generateISO8601String() -> String {
     let formatter = DateFormatter()
     var format = ""
@@ -112,52 +118,73 @@ struct DatetimeCategoryView: KeyboardCategoryView {
   var isoView: some View {
     DisclosureGroup {
       VStack(alignment: .leading) {
-        Text("ISO 8601 / RFC 3339")
-        Divider()
-        Picker(selection: $settings.iso8601tz) {
-          ForEach(ISO8601Timezone.allCases, id: \.self) { s in
-            Text(s.rawValue)
-          }
-        } label: {
+        HStack {
           Text("Timezone")
-        }
-        Picker(selection: $settings.iso8601format) {
-          ForEach(ISO8601Format.allCases, id: \.self) { s in
-            Text(s.rawValue)
-          }
-        } label: {
-          Text("Format")
-        }
-        if settings.iso8601format == .simple {
-          Picker(selection: $settings.iso8601s) {
-            ForEach(ISO8601Seconds.allCases, id: \.self) { s in
+          Spacer()
+          Picker("", selection: $settings.iso8601tz) {
+            ForEach(ISO8601Timezone.allCases, id: \.self) { s in
               Text(s.rawValue)
             }
-          } label: {
-            Text("Accuracy")
           }
-          if settings.iso8601tz == .utc {
-            Picker(selection: $settings.iso8601os) {
-              ForEach(ISO8601Offset.allCases, id: \.self) { s in
+          .pickerStyle(.segmented)
+          .fixedSize()
+        }
+        HStack {
+          Text("Format")
+          Spacer()
+          Picker("", selection: $settings.iso8601format) {
+            ForEach(ISO8601Format.allCases, id: \.self) { s in
+              Text(s.rawValue)
+            }
+          }
+          .pickerStyle(.segmented)
+          .fixedSize()
+        }
+        if settings.iso8601format == .simple {
+          HStack {
+            Text("Accuracy")
+            Spacer()
+            Picker("", selection: $settings.iso8601s) {
+              ForEach(ISO8601Seconds.allCases, id: \.self) { s in
                 Text(s.rawValue)
               }
-            } label: {
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+          }
+          if settings.iso8601tz == .utc {
+            HStack {
               Text("Offset notation")
+              Spacer()
+              Picker("", selection: $settings.iso8601os) {
+                ForEach(ISO8601Offset.allCases, id: \.self) { s in
+                  Text(s.rawValue)
+                }
+              }
+              .pickerStyle(.segmented)
+              .fixedSize()
             }
           }
         } else {
-          TextField("Custom format", text: $settings.iso8601customFormat)
+          HStack {
+            Text("Format")
+            TextField("yyyy-MM-dd'T'HH:mm:ss.SSSZ", text: $settings.iso8601customFormat)
+          }
           Text("Paste a Swift DateFormatter string here.").font(.caption)
         }
       }
     } label: {
-      Button(generateISO8601String()) {
-        insertText(generateISO8601String())
+      HStack {
+        Text("ISO 8601")
+        Spacer()
+        Button(generateISO8601String()) {
+          insertText(generateISO8601String())
+        }
       }
     }
   }
 
-  // MARK: Date Time
+  // MARK: URL-friendly Date Time
 
   func generateDateTimeString(format: String, timezone: ISO8601Timezone = .local) -> String {
     let formatter = DateFormatter()
@@ -172,19 +199,24 @@ struct DatetimeCategoryView: KeyboardCategoryView {
   var urlFriendlyDateView: some View {
     DisclosureGroup {
       VStack(alignment: .leading) {
-        Text("URL-friendly Date Time String")
-        Divider()
-        TextField("Custom format", text: $urlFriendlyCustomFormat)
+        HStack {
+          Text("Format")
+          TextField("yyyy-MM-dd'T'HH-mm-ss'Z'", text: $urlFriendlyCustomFormat)
+        }
         Text("Pastes a Swift DateFormatter string here.").font(.caption)
       }
     } label: {
-      Button(generateDateTimeString(format: urlFriendlyCustomFormat, timezone: .utc)) {
-        insertText(generateDateTimeString(format: urlFriendlyCustomFormat, timezone: .utc))
+      HStack {
+        Text("DateTime String")
+        Spacer()
+        Button(generateDateTimeString(format: urlFriendlyCustomFormat, timezone: .utc)) {
+          insertText(generateDateTimeString(format: urlFriendlyCustomFormat, timezone: .utc))
+        }
       }
     }
   }
 
-  // MARK: Date
+  // MARK: Date Time
 
   @State var customDateFormat: String = "yyyy-MM-dd"
   @State var customTimeFormat: String = "HH:mm:ss"
@@ -192,19 +224,28 @@ struct DatetimeCategoryView: KeyboardCategoryView {
   var datetimeView: some View {
     DisclosureGroup {
       VStack(alignment: .leading) {
-        Text("Date Time")
-        Divider()
-        TextField("Custom Date format", text: $customDateFormat)
-        TextField("Custom Time format", text: $customTimeFormat)
-        Text("Pastes a Swift DateFormatter string here.").font(.caption)
+        HStack {
+          Text("Date format")
+          TextField("Date format", text: $customDateFormat)
+        }
+        HStack {
+          Text("Time format")
+          TextField("Time format", text: $customTimeFormat)
+        }
+        Text("Pastes a Swift DateFormatter string here.")
+          .font(.caption)
       }
     } label: {
       HStack {
-        Button(generateDateTimeString(format: customDateFormat, timezone: .local)) {
-          insertText(generateDateTimeString(format: customDateFormat, timezone: .local))
-        }
-        Button(generateDateTimeString(format: customTimeFormat, timezone: .local)) {
-          insertText(generateDateTimeString(format: customTimeFormat, timezone: .local))
+        HStack {
+          Text("Date & Time")
+          Spacer()
+          Button(generateDateTimeString(format: customDateFormat, timezone: .local)) {
+            insertText(generateDateTimeString(format: customDateFormat, timezone: .local))
+          }
+          Button(generateDateTimeString(format: customTimeFormat, timezone: .local)) {
+            insertText(generateDateTimeString(format: customTimeFormat, timezone: .local))
+          }
         }
       }
     }

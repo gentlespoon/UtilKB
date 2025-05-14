@@ -21,23 +21,27 @@ struct KeyboardView: View {
   @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       keyboardBody
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
       controlBar
     }
     .buttonStyle(.bordered)
-    .frame(maxWidth: .infinity, minHeight: 280, maxHeight: 400)
+    .frame(maxWidth: .infinity, minHeight: settings.keyboardHeight, maxHeight: 500)
     .background(
       Color(
         hex: colorScheme == .dark
-          ? KeyboardContext.backgroundColor.dark.rawValue
-          : KeyboardContext.backgroundColor.light.rawValue
+          ? KeyboardSettings.backgroundColor.dark.rawValue
+          : KeyboardSettings.backgroundColor.light.rawValue
       )
       .ignoresSafeArea()
     )
+    .onAppear {
+      settings.loadKeyboardHeight()
+    }
   }
 
+  let controlBarHeight: CGFloat = 44
+  
   var controlBar: some View {
     HStack(spacing: 8) {
       Button("\(Image(systemName: "list.bullet"))") {
@@ -62,30 +66,35 @@ struct KeyboardView: View {
       Button("return") { insertText("\n") }
         .foregroundStyle(.foreground)
     }
-    .frame(maxWidth: .infinity)
-    .frame(height: 44)
-    .padding(5)
+    .frame(maxHeight: controlBarHeight)
+    .padding([.horizontal], 8)
   }
+  
+  let keyboardPaddingTop = 2.0
 
   var keyboardBody: some View {
-    VStack {
-      if settings.activeCategory == .none {
-        kbCategorySelector
+    ScrollView {
+      VStack {
+        if settings.activeCategory == .none {
+          kbCategorySelector
+        }
+        if settings.activeCategory == .datetime {
+          DatetimeCategoryView(insertText: insertText)
+        }
+        if settings.activeCategory == .random {
+          RandomCategoryView(insertText: insertText)
+        }
+        if settings.activeCategory == .encodeHash {
+          EncodeHashCategoryView(insertText: insertText)
+        }
+        if settings.activeCategory == .dummy {
+          DummyDataCategoryView(insertText: insertText)
+        }
       }
-      if settings.activeCategory == .datetime {
-        DatetimeCategoryView(insertText: insertText)
-      }
-      if settings.activeCategory == .random {
-        RandomCategoryView(insertText: insertText)
-      }
-      if settings.activeCategory == .encodeHash {
-        EncodeHashCategoryView(insertText: insertText)
-      }
-      if settings.activeCategory == .dummy {
-        DummyDataCategoryView(insertText: insertText)
-      }
+      .frame(height: settings.keyboardHeight - controlBarHeight - keyboardPaddingTop)
     }
-    .padding([.top, .bottom], 1)
+    .frame(height: settings.keyboardHeight - controlBarHeight - keyboardPaddingTop)
+    .padding([.top], keyboardPaddingTop)
   }
 
   var kbCategorySelector: some View {

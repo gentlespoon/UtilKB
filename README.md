@@ -7,9 +7,9 @@
 A custom keyboard extension for iOS that helps developers, testers, and power users quickly insert useful content like UUIDs, timestamps, hashes, encodings, placeholder text, and dummy data — right from the keyboard.
 
 <p float="left">
-<img src="imgs/20250513110201.jpg" width="30%" />
-<img src="imgs/20250513110202.jpg" width="30%" />
-<img src="imgs/20250513110203.jpg" width="30%" />
+<img src="imgs/20250513172210.jpg" width="30%" />
+<img src="imgs/20250513172220.jpg" width="30%" />
+<img src="imgs/20250513172230.jpg" width="30%" />
 </p>
 
 ## ✨ Features

@@ -9,8 +9,8 @@ import SwiftUI
 
 
 enum UUIDv4Case: String, CaseIterable {
-  case upper = "UPPERCASE"
-  case lower = "lowercase"
+  case upper = "UPPER"
+  case lower = "lower"
 }
 
 struct RandomCategoryView: KeyboardCategoryView {
@@ -40,17 +40,25 @@ struct RandomCategoryView: KeyboardCategoryView {
       VStack(alignment: .leading) {
         Text("UUID v4")
         Divider()
-        Picker(selection: $settings.uuidv4Case) {
-          ForEach(UUIDv4Case.allCases, id: \.self) { s in
-            Text(s.rawValue)
+        HStack {
+          Text("Letter Case")
+          Spacer()
+          Picker("", selection: $settings.uuidv4Case) {
+            ForEach(UUIDv4Case.allCases, id: \.self) { s in
+              Text(s.rawValue)
+            }
           }
-        } label: {
-          Text("Letter case")
+          .pickerStyle(.segmented)
+          .fixedSize()
         }
       }
     } label: {
-      Button("UUID v4") {
-        insertText(generateUUIDv4())
+      HStack {
+        Text("UUID")
+        Spacer()
+        Button("v4") {
+          insertText(generateUUIDv4())
+        }
       }
     }
   }
