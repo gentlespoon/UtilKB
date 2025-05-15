@@ -5,7 +5,7 @@ class KeyboardSettings: ObservableObject {
 
   let userDefaultsShared: UserDefaults
   let userDefaultsStandard: UserDefaults
-  
+
   enum backgroundColor: String {
     case dark = "2B2B2B"
     case light = "CFD3D9"
@@ -13,7 +13,7 @@ class KeyboardSettings: ObservableObject {
 
   // MARK: - Keyboard Settings
   @Published var keyboardHeight: Double = 260
-  // no need for didSet since it will be configured in main app SettingsView.
+  @Published var controlBarKeyHeight: Double = 30
 
   // MARK: - Category Settings
   @Published var activeCategory: KeyboardCategory {
@@ -78,11 +78,12 @@ class KeyboardSettings: ObservableObject {
       userDefaultsStandard.set(uuidv4Case.rawValue, forKey: "uuidv4Case")
     }
   }
-  
+
   func loadKeyboardHeight() {
     let savedHeight = userDefaultsShared.double(forKey: "keyboardHeight")
-    self.keyboardHeight = savedHeight != 0
-    ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 270)
+    self.keyboardHeight =
+      savedHeight != 0
+      ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 280)
   }
 
   private init() {
@@ -91,9 +92,14 @@ class KeyboardSettings: ObservableObject {
 
     // Initialize keyboard height
     let savedHeight = userDefaultsShared.double(forKey: "keyboardHeight")
-    self.keyboardHeight = savedHeight != 0
-    ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 270)
-    
+    self.keyboardHeight =
+      savedHeight != 0
+      ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 270)
+
+    // Initialize control bar key height
+    let savedControlBarKeyHeight = userDefaultsShared.double(forKey: "controlBarKeyHeight")
+    self.controlBarKeyHeight = savedControlBarKeyHeight != 0 ? savedControlBarKeyHeight : 30
+
     // Initialize activeCategory
     if let savedCategory = userDefaultsStandard.string(forKey: "lastActiveCategory"),
       let category = KeyboardCategory(rawValue: savedCategory)

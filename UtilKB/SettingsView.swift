@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-  
+
   let userDefaultsShared: UserDefaults
 
   @State private var keyboardHeight: Double = 280
+  @State private var controlBarKeyHeight: Double = 30
 
   public init() {
     self.userDefaultsShared = UserDefaults(suiteName: "group.com.angdasoft.utilkb")!
@@ -22,10 +23,11 @@ struct SettingsView: View {
       Text("Preference")
         .font(.headline)
       HStack {
-        Text("Height")
+        Text("KB Height")
         Slider(
           value: $keyboardHeight,
           in: 200...500,
+          step: 1,
           label: {}
         )
         .onChange(of: keyboardHeight) { oldValue, newValue in
@@ -34,12 +36,29 @@ struct SettingsView: View {
         Text("\(Int(keyboardHeight))")
           .frame(width: 50)
       }
+      HStack {
+        Text("Key Height")
+        Slider(
+          value: $controlBarKeyHeight,
+          in: 30...60,
+          step: 1,
+          label: {}
+        )
+        .onChange(of: controlBarKeyHeight) { oldValue, newValue in
+          userDefaultsShared.set(newValue, forKey: "controlBarKeyHeight")
+        }
+        Text("\(Int(controlBarKeyHeight))")
+          .frame(width: 50)
+      }
       Spacer()
     }
     .padding()
     .onAppear {
       let savedkeyboardHeight = userDefaultsShared.double(forKey: "keyboardHeight")
       keyboardHeight = savedkeyboardHeight == 0 ? 280 : savedkeyboardHeight
+
+      let savedControlBarKeyHeight = userDefaultsShared.double(forKey: "controlBarKeyHeight")
+      controlBarKeyHeight = savedControlBarKeyHeight == 0 ? 44 : savedControlBarKeyHeight
     }
   }
 }

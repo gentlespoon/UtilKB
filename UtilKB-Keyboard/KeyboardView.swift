@@ -40,12 +40,18 @@ struct KeyboardView: View {
     }
   }
 
-  let controlBarHeight: CGFloat = 44
-
+  var controlBarHeight: CGFloat {
+    settings.controlBarKeyHeight + 20
+  }
+  
   var controlBar: some View {
     HStack(spacing: 8) {
-      Button("\(Image(systemName: "list.bullet"))") {
+
+      Button(action: {
         settings.activeCategory = .none
+      }) {
+        Text("\(Image(systemName: "list.bullet"))")
+          .frame(height: settings.controlBarKeyHeight)
       }
       .foregroundStyle(settings.activeCategory == .none ? Color.gray : Color.primary)
       .disabled(settings.activeCategory == .none)
@@ -65,24 +71,39 @@ struct KeyboardView: View {
           }
         }
       }
-      Button(action: { insertText(" ") }) {
-        Text("space").frame(minWidth: 0, maxWidth: .infinity)
+
+      Button(action: { insertText(UIPasteboard.general.string ?? "") }) {
+        Text("\(Image(systemName: "document.on.clipboard"))")
+          .frame(height: settings.controlBarKeyHeight)
       }
       .foregroundStyle(.foreground)
-      Button(action: { insertText("[undo]") }) {
-        Text("\(Image(systemName: "arrow.uturn.backward"))")
-          .foregroundStyle(.red)
+
+      Button(action: { insertText(" ") }) {
+        Text("space \(settings.controlBarKeyHeight)").frame(minWidth: 0, maxWidth: .infinity)
+          .frame(height: settings.controlBarKeyHeight)
       }
-      .tint(.red)
+      .foregroundStyle(.foreground)
+
       Button(action: { insertText("[delete]") }) {
         Text("\(Image(systemName: "delete.left"))")
+          .frame(height: settings.controlBarKeyHeight)
           .foregroundStyle(.red)
       }
-      .tint(.red)
-      Button("return") { insertText("\n") }
-        .foregroundStyle(.foreground)
+      .contextMenu {
+        Button(action: { insertText("[undo]") }) {
+          Text("\(Image(systemName: "arrow.uturn.backward")) Undo")
+            .foregroundStyle(.red)
+        }
+        .tint(.red)
+      }
+
+      Button(action: { insertText("\n") }) {
+        Text("return")
+          .frame(height: settings.controlBarKeyHeight)
+      }
+      .foregroundStyle(.foreground)
     }
-    .frame(maxHeight: controlBarHeight)
+    .frame(height: controlBarHeight)
     .padding([.horizontal], 8)
   }
 
