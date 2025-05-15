@@ -41,7 +41,7 @@ struct KeyboardView: View {
   }
 
   let controlBarHeight: CGFloat = 44
-  
+
   var controlBar: some View {
     HStack(spacing: 8) {
       Button("\(Image(systemName: "list.bullet"))") {
@@ -49,6 +49,22 @@ struct KeyboardView: View {
       }
       .foregroundStyle(settings.activeCategory == .none ? Color.gray : Color.primary)
       .disabled(settings.activeCategory == .none)
+      .contextMenu {
+        ForEach(KeyboardCategory.allCases, id: \.self) { category in
+          if category == .none {
+            EmptyView()
+          } else {
+            Button {
+              settings.activeCategory = category
+            } label: {
+              HStack {
+                Text(category.rawValue)
+                Spacer()
+              }
+            }
+          }
+        }
+      }
       Button(action: { insertText(" ") }) {
         Text("space").frame(minWidth: 0, maxWidth: .infinity)
       }
@@ -69,7 +85,7 @@ struct KeyboardView: View {
     .frame(maxHeight: controlBarHeight)
     .padding([.horizontal], 8)
   }
-  
+
   let keyboardPaddingTop = 2.0
 
   var keyboardBody: some View {
