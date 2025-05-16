@@ -15,19 +15,38 @@ class KeyboardViewController: UIInputViewController {
     super.viewDidLoad()
 
     let keyboard = KeyboardView { [weak self] text in
-      self?.undoStack.append(self?.textDocumentProxy.documentContextBeforeInput ?? "")
+      let previousContent = self?.textDocumentProxy.documentContextBeforeInput ?? ""
+      var insertSpace = false
+      
+      if !previousContent.isEmpty {
+        self?.undoStack.append(previousContent)
+        
+        let lastCharIsSpace = previousContent.last?.isWhitespace ?? true
+        if !lastCharIsSpace {
+          insertSpace = true
+        }
+      }
+
       switch text {
+      case "[clear]":
+        while self?.textDocumentProxy.hasText ?? false {
+          self?.textDocumentProxy.deleteBackward()
+        }
       case "[delete]":
         self?.textDocumentProxy.deleteBackward()
       case "[undo]":
-        _ = self?.undoStack.popLast()
-        while (self?.textDocumentProxy.hasText ?? false) {
+        while self?.textDocumentProxy.hasText ?? false {
           self?.textDocumentProxy.deleteBackward()
         }
-        if let previousText = self?.undoStack.popLast()  {
+        if let previousText = self?.undoStack.popLast() {
           self?.textDocumentProxy.insertText(previousText)
         }
       default:
+        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+          if insertSpace {
+            self?.textDocumentProxy.insertText(" ")
+          }
+        }
         self?.textDocumentProxy.insertText(text)
       }
     }

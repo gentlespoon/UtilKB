@@ -6,14 +6,22 @@ class KeyboardSettings: ObservableObject {
   let userDefaultsShared: UserDefaults
   let userDefaultsStandard: UserDefaults
 
+  // MARK: - Keyboard Settings
+  
   enum backgroundColor: String {
     case dark = "2B2B2B"
     case light = "CFD3D9"
   }
-
-  // MARK: - Keyboard Settings
+  
   @Published var keyboardHeight: Double = 260
   @Published var controlBarKeyHeight: Double = 30
+  
+  func loadKeyboardHeight() {
+    let savedHeight = userDefaultsShared.double(forKey: "keyboardHeight")
+    self.keyboardHeight =
+    savedHeight != 0
+    ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 280)
+  }
 
   // MARK: - Category Settings
   @Published var activeCategory: KeyboardCategory {
@@ -23,11 +31,6 @@ class KeyboardSettings: ObservableObject {
   }
 
   // MARK: - Dummy Data Settings
-  @Published var loremIpsumCount: Int {
-    didSet {
-      userDefaultsStandard.set(loremIpsumCount, forKey: "loremIpsumCount")
-    }
-  }
 
   @Published var dummyIdCountry: DummyIdCountry {
     didSet {
@@ -79,13 +82,6 @@ class KeyboardSettings: ObservableObject {
     }
   }
 
-  func loadKeyboardHeight() {
-    let savedHeight = userDefaultsShared.double(forKey: "keyboardHeight")
-    self.keyboardHeight =
-      savedHeight != 0
-      ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 280)
-  }
-
   private init() {
     self.userDefaultsShared = UserDefaults(suiteName: "group.com.angdasoft.utilkb")!
     self.userDefaultsStandard = UserDefaults.standard
@@ -110,9 +106,6 @@ class KeyboardSettings: ObservableObject {
     }
 
     // Initialize Dummy Data settings
-    let loremIpsumCount = userDefaultsStandard.integer(forKey: "loremIpsumCount")
-    self.loremIpsumCount = loremIpsumCount != 0 ? loremIpsumCount : 1
-
     if let savedCountry = userDefaultsStandard.string(forKey: "dummyIdCountry"),
       let country = DummyIdCountry(rawValue: savedCountry)
     {

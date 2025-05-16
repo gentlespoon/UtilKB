@@ -79,7 +79,7 @@ struct KeyboardView: View {
       .foregroundStyle(.foreground)
 
       Button(action: { insertText(" ") }) {
-        Text("space \(settings.controlBarKeyHeight)").frame(minWidth: 0, maxWidth: .infinity)
+        Text("space").frame(minWidth: 0, maxWidth: .infinity)
           .frame(height: settings.controlBarKeyHeight)
       }
       .foregroundStyle(.foreground)
@@ -90,11 +90,8 @@ struct KeyboardView: View {
           .foregroundStyle(.red)
       }
       .contextMenu {
-        Button(action: { insertText("[undo]") }) {
-          Text("\(Image(systemName: "arrow.uturn.backward")) Undo")
-            .foregroundStyle(.red)
-        }
-        .tint(.red)
+//        Button("\(Image(systemName: "xmark.circle.fill")) Clear", role: .destructive) { insertText("[clear]")}
+        Button("\(Image(systemName: "arrow.uturn.backward")) Undo", role: .destructive) { insertText("[undo]")}
       }
 
       Button(action: { insertText("\n") }) {
