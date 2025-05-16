@@ -14,23 +14,28 @@ A custom keyboard extension for iOS that helps developers, testers, and power us
 
 ## ✨ Features
 
-- 🔑 **UUID**
-  - v4 (UPPER and lower case)
+- 📄 **Placeholder Text**
+  - Lorem Ipsum
+    - Words, sentences, paragraphs
+    - UPPER / lower / Title Case / Sentence case
+- 🏷 **Dummy Data**
+  - Randomized names and addresses
+    - With latin character dummy email addresses
+  - Regional formats
+    - CA, CN, JP, RU, UK, US
 - ⏱ **Timestamps**
   - Epoch (seconds and milliseconds)
   - ISO 8601 (standard and compact, custom format)
+- 🔑 **UUID**
+  - v4 (UPPER and lower case)
+- 🧬 **Encode & Decode**
+  - Base2 (binary)
+  - Base64
 - 🔐 **Hash Functions**
   - SHA-256
   - SHA-1
   - MD5
   - CRC32
-- 🧬 **Encode & Decode**
-  - Base64
-- 📄 **Placeholder Text**
-  - Lorem Ipsum
-- 🏷 **Dummy Data**
-  - Randomized names and addresses
-  - Region-specific patterns
 
 ## 🧑‍💻 Ideal For
 
