@@ -14,7 +14,7 @@ struct SHA1View: KeyboardCategoryView {
   @State var sha1Output: String = ""
 
   var body: some View {
-    DisclosureGroup("Hash - SHA-1") {
+    DisclosureGroup("SHA-1") {
       VStack(alignment: .leading) {
         HStack {
           TextField("Plain text", text: $sha1Input)

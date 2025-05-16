@@ -14,7 +14,7 @@ struct CRC32View: KeyboardCategoryView {
   @State var crc32Output: String = ""
 
   var body: some View {
-    DisclosureGroup("Hash - CRC32") {
+    DisclosureGroup("CRC32") {
       VStack(alignment: .leading) {
         HStack {
           TextField("Plain text", text: $crc32Input)

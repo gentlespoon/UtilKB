@@ -1,5 +1,5 @@
 //
-//  StringHash.swift
+//  StringExtension.swift
 //  UtilKB
 //
 //  Created by An So on 2025-05-13.
@@ -39,5 +39,11 @@ extension String {
       return UInt32(checksum)
     }
     return String(format: "%08x", checksum)
+  }
+  
+  func padLeft(toLength: Int, with pad: Character) -> String {
+    let padCount = toLength - self.count
+    if padCount <= 0 { return self }
+    return String(repeating: pad, count: padCount) + self
   }
 }

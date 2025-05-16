@@ -14,7 +14,7 @@ struct SHA256View: KeyboardCategoryView {
   @State var sha256Output: String = ""
 
   var body: some View {
-    DisclosureGroup("Hash - SHA-256") {
+    DisclosureGroup("SHA-256") {
       VStack(alignment: .leading) {
         HStack {
           TextField("Plain text", text: $sha256Input)

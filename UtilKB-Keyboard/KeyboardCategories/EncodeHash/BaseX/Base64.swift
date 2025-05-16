@@ -17,7 +17,7 @@ struct Base64View: KeyboardCategoryView {
   @State var base64DecodeOutput: String = ""
   
   var body: some View {
-    DisclosureGroup("Encode - Base64") {
+    DisclosureGroup("Base64") {
       VStack(alignment: .leading) {
         HStack {
           TextField("Plain text", text: $base64EncodeInput)

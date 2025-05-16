@@ -14,7 +14,7 @@ struct MD5View: KeyboardCategoryView {
   @State var md5Output: String = ""
 
   var body: some View {
-    DisclosureGroup("Hash - MD5") {
+    DisclosureGroup("MD5") {
       VStack(alignment: .leading) {
         HStack {
           TextField("Plain text", text: $md5Input)

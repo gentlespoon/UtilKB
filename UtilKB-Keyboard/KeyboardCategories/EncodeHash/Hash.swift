@@ -1,5 +1,5 @@
 //
-//  EncodeHash.swift
+//  Hash.swift
 //  UtilityBoard
 //
 //  Created by An So on 2025-05-11.
@@ -7,12 +7,11 @@
 
 import SwiftUI
 
-struct EncodeHashCategoryView: KeyboardCategoryView {
+struct HashCategoryView: KeyboardCategoryView {
   let insertText: (String) -> Void
 
   var body: some View {
     List {
-      Base64View(insertText: insertText)
       SHA256View(insertText: insertText)
       SHA1View(insertText: insertText)
       MD5View(insertText: insertText)
