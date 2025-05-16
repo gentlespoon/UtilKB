@@ -11,7 +11,8 @@ enum KeyboardCategory: String, CaseIterable {
   case none = "None"
   case datetime = "Date & Time"
   case dummy = "Dummy Data"
-  case encodeHash = "Encode & Hash"
+  case hash = "Hash"
+  case baseX = "BaseX"
   case random = "Random"
 }
 
@@ -36,14 +37,14 @@ struct KeyboardView: View {
       .ignoresSafeArea()
     )
     .onAppear {
-      settings.loadKeyboardHeight()
+      settings.loadKeyboardSettings()
     }
   }
 
   var controlBarHeight: CGFloat {
     settings.controlBarKeyHeight + 20
   }
-  
+
   var controlBar: some View {
     HStack(spacing: 8) {
 
@@ -79,7 +80,7 @@ struct KeyboardView: View {
       .foregroundStyle(.foreground)
 
       Button(action: { insertText(" ") }) {
-        Text("space \(settings.controlBarKeyHeight)").frame(minWidth: 0, maxWidth: .infinity)
+        Text("space").frame(minWidth: 0, maxWidth: .infinity)
           .frame(height: settings.controlBarKeyHeight)
       }
       .foregroundStyle(.foreground)
@@ -89,13 +90,12 @@ struct KeyboardView: View {
           .frame(height: settings.controlBarKeyHeight)
           .foregroundStyle(.red)
       }
-      .contextMenu {
-        Button(action: { insertText("[undo]") }) {
-          Text("\(Image(systemName: "arrow.uturn.backward")) Undo")
-            .foregroundStyle(.red)
-        }
-        .tint(.red)
-      }
+//      .contextMenu {
+//        Button("\(Image(systemName: "xmark.circle.fill")) Clear", role: .destructive) { insertText("[clear]")}
+//        Button("\(Image(systemName: "arrow.uturn.backward")) Undo", role: .destructive) {
+//          insertText("[undo]")
+//        }
+//      }
 
       Button(action: { insertText("\n") }) {
         Text("return")
@@ -121,8 +121,11 @@ struct KeyboardView: View {
         if settings.activeCategory == .random {
           RandomCategoryView(insertText: insertText)
         }
-        if settings.activeCategory == .encodeHash {
-          EncodeHashCategoryView(insertText: insertText)
+        if settings.activeCategory == .hash {
+          HashCategoryView(insertText: insertText)
+        }
+        if settings.activeCategory == .baseX {
+          BaseXCategoryView(insertText: insertText)
         }
         if settings.activeCategory == .dummy {
           DummyDataCategoryView(insertText: insertText)

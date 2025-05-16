@@ -1,20 +1,11 @@
 //
-//  DummyIdentityList.swift
+//  DummyIdentityData.swift
 //  UtilKB
 //
 //  Created by An So on 2025-05-12.
 //
 
 import Foundation
-
-enum DummyIdCountry: String, CaseIterable {
-  case US = "United States"
-  case UK = "United Kingdom"
-  case CA = "Canada"
-  case CN = "China"
-  case RU = "Russia"
-  case JP = "Japan"
-}
 
 func piiFormats(_ country: DummyIdCountry) -> [(String, String)] {
   switch country {
@@ -237,7 +228,7 @@ let dummyIdList: [DummyIdCountry: [String: [String]]] = [
 
   .JP: [  // 君の名は (Your Name)
     "givenname": [
-      "瀧", "三葉", "四葉", "勅使河原", "名取", "早耶香", "司", "高木", "宮水", "俊樹",
+      "瀧", "三葉", "四葉", "宏", "名取", "早耶香", "司", "高木", "宮水", "俊樹",
     ],
     "surname": [
       "立花", "宮水", "勅使河原", "名取", "高木", "藤井", "大垣", "奥寺", "小野寺", "神木",
