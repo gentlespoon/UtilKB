@@ -16,15 +16,9 @@ class KeyboardViewController: UIInputViewController {
 
     let keyboard = KeyboardView { [weak self] text in
       let previousContent = self?.textDocumentProxy.documentContextBeforeInput ?? ""
-      var insertSpace = false
       
       if !previousContent.isEmpty {
         self?.undoStack.append(previousContent)
-        
-        let lastCharIsSpace = previousContent.last?.isWhitespace ?? true
-        if !lastCharIsSpace {
-          insertSpace = true
-        }
       }
 
       switch text {
@@ -42,11 +36,6 @@ class KeyboardViewController: UIInputViewController {
           self?.textDocumentProxy.insertText(previousText)
         }
       default:
-        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-          if insertSpace {
-            self?.textDocumentProxy.insertText(" ")
-          }
-        }
         self?.textDocumentProxy.insertText(text)
       }
     }
