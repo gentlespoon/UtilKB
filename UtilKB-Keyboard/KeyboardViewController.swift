@@ -42,7 +42,8 @@ class KeyboardViewController: UIInputViewController {
           self?.textDocumentProxy.insertText(text)
         }
       },
-      needsInputModeSwitchKey: needsInputModeSwitchKey
+      needsInputModeSwitchKey: needsInputModeSwitchKey,
+      deviceType: UIDevice.current.userInterfaceIdiom
     )
 
     let hosting = UIHostingController(rootView: keyboard)

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 enum KeyboardCategory: String, CaseIterable {
   case none = "None"
@@ -21,6 +22,7 @@ struct KeyboardView: View {
   @StateObject private var settings = KeyboardSettings.shared
   @Environment(\.colorScheme) var colorScheme
   let needsInputModeSwitchKey: Bool
+  let deviceType: UIUserInterfaceIdiom
 
   var body: some View {
     VStack(spacing: 0) {
@@ -47,72 +49,83 @@ struct KeyboardView: View {
   }
 
   var controlBar: some View {
-    HStack(spacing: 8) {
-      Button(action: {
-        settings.activeCategory = .none
-      }) {
-        Text("\(Image(systemName: "list.bullet"))")
-          .frame(height: settings.controlBarKeyHeight)
-      }
-      .foregroundStyle(settings.activeCategory == .none ? Color.gray : Color.primary)
-      .disabled(settings.activeCategory == .none)
-      .contextMenu {
-        ForEach(KeyboardCategory.allCases, id: \.self) { category in
-          if category == .none {
-            EmptyView()
-          } else {
-            Button {
-              settings.activeCategory = category
-            } label: {
-              HStack {
-                Text(category.rawValue)
-                Spacer()
+    VStack(spacing: 0) {
+      HStack(spacing: 8) {
+        if needsInputModeSwitchKey && deviceType == .pad {
+          Button(action: { insertText("[nextKeyboard]") }) {
+            Text("\(Image(systemName: "globe"))")
+              .frame(height: settings.controlBarKeyHeight)
+          }
+          .foregroundStyle(.foreground)
+          .padding(.bottom, 4)
+        }
+
+        Button(action: {
+          settings.activeCategory = .none
+        }) {
+          Text("\(Image(systemName: "list.bullet"))")
+            .frame(height: settings.controlBarKeyHeight)
+        }
+        .foregroundStyle(settings.activeCategory == .none ? Color.gray : Color.primary)
+        .disabled(settings.activeCategory == .none)
+        .contextMenu {
+          ForEach(KeyboardCategory.allCases, id: \.self) { category in
+            if category == .none {
+              EmptyView()
+            } else {
+              Button {
+                settings.activeCategory = category
+              } label: {
+                HStack {
+                  Text(category.rawValue)
+                  Spacer()
+                }
               }
             }
           }
         }
-      }
 
-      if needsInputModeSwitchKey {
-        Button(action: { insertText("[nextKeyboard]") }) {
-          Text("\(Image(systemName: "globe"))")
+        if needsInputModeSwitchKey && deviceType == .phone {
+          Button(action: { insertText("[nextKeyboard]") }) {
+            Text("\(Image(systemName: "globe"))")
+              .frame(height: settings.controlBarKeyHeight)
+          }
+          .foregroundStyle(.foreground)
+        }
+
+        Button(action: { insertText(UIPasteboard.general.string ?? "") }) {
+          Text("\(Image(systemName: "document.on.clipboard"))")
+            .frame(height: settings.controlBarKeyHeight)
+        }
+        .foregroundStyle(.foreground)
+
+        Button(action: { insertText(" ") }) {
+          Text("space").frame(minWidth: 0, maxWidth: .infinity)
+            .frame(height: settings.controlBarKeyHeight)
+        }
+        .foregroundStyle(.foreground)
+
+        Button(action: { insertText("[delete]") }) {
+          Text("\(Image(systemName: "delete.left"))")
+            .frame(height: settings.controlBarKeyHeight)
+            .foregroundStyle(.red)
+        }
+        //      .contextMenu {
+        //        Button("\(Image(systemName: "xmark.circle.fill")) Clear", role: .destructive) { insertText("[clear]")}
+        //        Button("\(Image(systemName: "arrow.uturn.backward")) Undo", role: .destructive) {
+        //          insertText("[undo]")
+        //        }
+        //      }
+
+        Button(action: { insertText("\n") }) {
+          Text("return")
             .frame(height: settings.controlBarKeyHeight)
         }
         .foregroundStyle(.foreground)
       }
-
-      Button(action: { insertText(UIPasteboard.general.string ?? "") }) {
-        Text("\(Image(systemName: "document.on.clipboard"))")
-          .frame(height: settings.controlBarKeyHeight)
-      }
-      .foregroundStyle(.foreground)
-
-      Button(action: { insertText(" ") }) {
-        Text("space").frame(minWidth: 0, maxWidth: .infinity)
-          .frame(height: settings.controlBarKeyHeight)
-      }
-      .foregroundStyle(.foreground)
-
-      Button(action: { insertText("[delete]") }) {
-        Text("\(Image(systemName: "delete.left"))")
-          .frame(height: settings.controlBarKeyHeight)
-          .foregroundStyle(.red)
-      }
-      //      .contextMenu {
-      //        Button("\(Image(systemName: "xmark.circle.fill")) Clear", role: .destructive) { insertText("[clear]")}
-      //        Button("\(Image(systemName: "arrow.uturn.backward")) Undo", role: .destructive) {
-      //          insertText("[undo]")
-      //        }
-      //      }
-
-      Button(action: { insertText("\n") }) {
-        Text("return")
-          .frame(height: settings.controlBarKeyHeight)
-      }
-      .foregroundStyle(.foreground)
+      .frame(height: controlBarHeight)
+      .padding([.horizontal], 8)
     }
-    .frame(height: controlBarHeight)
-    .padding([.horizontal], 8)
   }
 
   let keyboardPaddingTop = 2.0
