@@ -20,6 +20,7 @@ struct KeyboardView: View {
   let insertText: (String) -> Void
   @StateObject private var settings = KeyboardSettings.shared
   @Environment(\.colorScheme) var colorScheme
+  let needsInputModeSwitchKey: Bool
 
   var body: some View {
     VStack(spacing: 0) {
@@ -47,7 +48,6 @@ struct KeyboardView: View {
 
   var controlBar: some View {
     HStack(spacing: 8) {
-
       Button(action: {
         settings.activeCategory = .none
       }) {
@@ -73,6 +73,14 @@ struct KeyboardView: View {
         }
       }
 
+      if needsInputModeSwitchKey {
+        Button(action: { insertText("[nextKeyboard]") }) {
+          Text("\(Image(systemName: "globe"))")
+            .frame(height: settings.controlBarKeyHeight)
+        }
+        .foregroundStyle(.foreground)
+      }
+
       Button(action: { insertText(UIPasteboard.general.string ?? "") }) {
         Text("\(Image(systemName: "document.on.clipboard"))")
           .frame(height: settings.controlBarKeyHeight)
@@ -90,12 +98,12 @@ struct KeyboardView: View {
           .frame(height: settings.controlBarKeyHeight)
           .foregroundStyle(.red)
       }
-//      .contextMenu {
-//        Button("\(Image(systemName: "xmark.circle.fill")) Clear", role: .destructive) { insertText("[clear]")}
-//        Button("\(Image(systemName: "arrow.uturn.backward")) Undo", role: .destructive) {
-//          insertText("[undo]")
-//        }
-//      }
+      //      .contextMenu {
+      //        Button("\(Image(systemName: "xmark.circle.fill")) Clear", role: .destructive) { insertText("[clear]")}
+      //        Button("\(Image(systemName: "arrow.uturn.backward")) Undo", role: .destructive) {
+      //          insertText("[undo]")
+      //        }
+      //      }
 
       Button(action: { insertText("\n") }) {
         Text("return")

@@ -4,7 +4,7 @@
 
 [⬇️ Download from App Store - for iOS 17+](https://apps.apple.com/us/app/utilkb/id6745785313)
 
-A custom keyboard extension for iOS that helps developers, testers, and power users quickly insert useful content like UUIDs, timestamps, hashes, encodings, placeholder text, and dummy data — right from the keyboard.
+A utility keyboard for iOS that helps developers, testers, and power users quickly insert useful content like, hashes, encodings, UUIDs, timestamps and dummy data — right from the keyboard.
 
 <p float="left">
 <img src="imgs/20250513172210.jpg" width="30%" />
@@ -14,28 +14,30 @@ A custom keyboard extension for iOS that helps developers, testers, and power us
 
 ## ✨ Features
 
-- 📄 **Placeholder Text**
+- 📄 Dummy Data
   - Lorem Ipsum
     - Words, sentences, paragraphs
     - UPPER / lower / Title Case / Sentence case
-- 🏷 **Dummy Data**
-  - Randomized names and addresses
+  - Random names and addresses
     - With latin character dummy email addresses
-  - Regional formats
-    - CA, CN, JP, RU, UK, US
-- ⏱ **Timestamps**
+    - Regional formats (CA, CN, JP, RU, UK, US)
+
+- ⏱ Timestamps
   - Epoch (seconds and milliseconds)
   - ISO 8601 (standard and compact, custom format)
-- 🔑 **UUID**
-  - v4 (UPPER and lower case)
-- 🧬 **Encode & Decode**
+
+- 🧬 Encode & Decode
   - Base2 (binary)
   - Base64
-- 🔐 **Hash Functions**
+
+- 🔐 Hash
   - SHA-256
   - SHA-1
   - MD5
   - CRC32
+
+- 🔑 Random
+  - UUID v4 (UPPER and lower case)
 
 ## 🧑‍💻 Ideal For
 

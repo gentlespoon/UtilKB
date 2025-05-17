@@ -14,31 +14,36 @@ class KeyboardViewController: UIInputViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let keyboard = KeyboardView { [weak self] text in
-      let previousContent = self?.textDocumentProxy.documentContextBeforeInput ?? ""
-      
-      if !previousContent.isEmpty {
-        self?.undoStack.append(previousContent)
-      }
+    let keyboard = KeyboardView(
+      insertText: { [weak self] text in
+        let previousContent = self?.textDocumentProxy.documentContextBeforeInput ?? ""
 
-      switch text {
-      case "[clear]":
-        while self?.textDocumentProxy.hasText ?? false {
+        if !previousContent.isEmpty {
+          self?.undoStack.append(previousContent)
+        }
+
+        switch text {
+        case "[clear]":
+          while self?.textDocumentProxy.hasText ?? false {
+            self?.textDocumentProxy.deleteBackward()
+          }
+        case "[delete]":
           self?.textDocumentProxy.deleteBackward()
+        case "[undo]":
+          while self?.textDocumentProxy.hasText ?? false {
+            self?.textDocumentProxy.deleteBackward()
+          }
+          if let previousText = self?.undoStack.popLast() {
+            self?.textDocumentProxy.insertText(previousText)
+          }
+        case "[nextKeyboard]":
+          self?.advanceToNextInputMode()
+        default:
+          self?.textDocumentProxy.insertText(text)
         }
-      case "[delete]":
-        self?.textDocumentProxy.deleteBackward()
-      case "[undo]":
-        while self?.textDocumentProxy.hasText ?? false {
-          self?.textDocumentProxy.deleteBackward()
-        }
-        if let previousText = self?.undoStack.popLast() {
-          self?.textDocumentProxy.insertText(previousText)
-        }
-      default:
-        self?.textDocumentProxy.insertText(text)
-      }
-    }
+      },
+      needsInputModeSwitchKey: needsInputModeSwitchKey
+    )
 
     let hosting = UIHostingController(rootView: keyboard)
     addChild(hosting)
