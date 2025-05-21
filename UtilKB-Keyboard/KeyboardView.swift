@@ -10,6 +10,7 @@ import UIKit
 
 enum KeyboardCategory: String, CaseIterable {
   case none = "None"
+  case alphanum = "Alphanumeric"
   case datetime = "Date & Time"
   case dummy = "Dummy Data"
   case hash = "Hash"
@@ -18,11 +19,15 @@ enum KeyboardCategory: String, CaseIterable {
 }
 
 struct KeyboardView: View {
-  let insertText: (String) -> Void
   @StateObject private var settings = KeyboardSettings.shared
   @Environment(\.colorScheme) var colorScheme
-  let needsInputModeSwitchKey: Bool
+
+  let viewController: UIInputViewController
+
+  let insertText: (String) -> Void
   let deviceType: UIUserInterfaceIdiom
+
+  @State private var needsInputModeSwitchKey: Bool = false
 
   var body: some View {
     VStack(spacing: 0) {
@@ -41,6 +46,7 @@ struct KeyboardView: View {
     )
     .onAppear {
       settings.loadKeyboardSettings()
+      needsInputModeSwitchKey = viewController.needsInputModeSwitchKey
     }
   }
 
@@ -150,6 +156,9 @@ struct KeyboardView: View {
         }
         if settings.activeCategory == .dummy {
           DummyDataCategoryView(insertText: insertText)
+        }
+        if settings.activeCategory == .alphanum {
+          AlphaNumView(insertText: insertText)
         }
       }
       .frame(height: settings.keyboardHeight - controlBarHeight - keyboardPaddingTop)

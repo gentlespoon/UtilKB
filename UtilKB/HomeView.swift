@@ -22,7 +22,7 @@ struct HomeView: View {
       ScrollView {
         VStack(alignment: .leading) {
           HStack {
-            Text("Made for devlopers and power users")
+            Text("Made for developers and power users")
             if deviceType == .phone {
               Spacer()
               NavigationLink("\(Image(systemName: "gearshape"))") {

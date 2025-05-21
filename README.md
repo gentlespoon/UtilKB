@@ -6,10 +6,12 @@
 
 A utility keyboard for iOS that helps developers, testers, and power users quickly insert useful content like, hashes, encodings, UUIDs, timestamps and dummy data — right from the keyboard.
 
+## Screenshots
+
 <p float="left">
-<img src="imgs/20250513172210.jpg" width="30%" />
-<img src="imgs/20250513172220.jpg" width="30%" />
-<img src="imgs/20250513172230.jpg" width="30%" />
+  <img src="imgs/20250520-datetime.jpg" width="30%" />
+  <img src="imgs/20250520-dummy.jpg" width="30%" />
+  <img src="imgs/20250520-hash-encode.jpg" width="30%" />
 </p>
 
 ## ✨ Features
@@ -39,6 +41,10 @@ A utility keyboard for iOS that helps developers, testers, and power users quick
 - 🔑 Random
   - UUID v4 (UPPER and lower case)
 
+- ⌨️ ASCII
+  - Simple and Full US Keyboard
+    - More keyboard layout (customizable) coming soon.
+
 ## 🧑‍💻 Ideal For
 
 - Developers needing quick UUIDs or timestamps
@@ -54,6 +60,15 @@ A utility keyboard for iOS that helps developers, testers, and power users quick
 4. Open any app and switch to the keyboard using the 🌐 globe icon.
 
 > ⚠️ Full Access is needed if you use any clipboard-related features.
+
+## More Pictures
+
+<p float="left">
+  <img src="imgs/20250520-ascii-simple.jpg" width="30%" />
+  <img src="imgs/20250520-ascii-full.jpg" width="30%" />
+  <img src="imgs/20250520-settings.jpg" width="30%" />
+</p>
+
 
 ## 🔐 Privacy & Permissions
 

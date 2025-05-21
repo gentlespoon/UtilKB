@@ -6,7 +6,6 @@ class KeyboardSettings: ObservableObject {
   let userDefaultsShared: UserDefaults
   let userDefaultsStandard: UserDefaults
 
-
   // MARK: - Category Settings
   @Published var activeCategory: KeyboardCategory {
     didSet {
@@ -65,45 +64,59 @@ class KeyboardSettings: ObservableObject {
       userDefaultsStandard.set(uuidv4Case.rawValue, forKey: "uuidv4Case")
     }
   }
-  
-  
+
   // MARK: - Keyboard Settings
-  
+
   enum backgroundColor: String {
     case dark = "2B2B2B"
     case light = "CFD3D9"
   }
-  
-  @Published var keyboardHeight: Double = 260
-  @Published var controlBarKeyHeight: Double = 30
-  
+
+  @Published var keyboardHeight: Double
+  @Published var controlBarKeyHeight: Double
+  @Published var asciiKeyHeight: Double
+
   func loadKeyboardSettings() {
     // keyboard height
     let savedHeight = userDefaultsShared.double(forKey: "keyboardHeight")
     self.keyboardHeight =
-    savedHeight != 0
-    ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 280)
-    
+      savedHeight != 0
+      ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 280)
+
     // control bar key height
     let savedControlBarKeyHeight = userDefaultsShared.double(forKey: "controlBarKeyHeight")
     self.controlBarKeyHeight =
-    savedControlBarKeyHeight != 0
-    ? savedControlBarKeyHeight : 30
+      savedControlBarKeyHeight != 0
+      ? savedControlBarKeyHeight : 30
+    
+    // ascii key height
+    let savedAsciiKeyHeight = userDefaultsShared.double(forKey: "asciiKeyHeight")
+    self.asciiKeyHeight =
+    savedAsciiKeyHeight != 0
+    ? savedAsciiKeyHeight : 38
   }
 
   private init() {
     self.userDefaultsShared = UserDefaults(suiteName: "group.com.angdasoft.utilkb")!
     self.userDefaultsStandard = UserDefaults.standard
-
+    
+    // ===== load settings =====
+    
     // Initialize keyboard height
     let savedHeight = userDefaultsShared.double(forKey: "keyboardHeight")
     self.keyboardHeight =
       savedHeight != 0
-      ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 270)
+      ? savedHeight : (Bundle.main.infoDictionary?["UIKeyboardDefaultSize"] as? Double ?? 280)
 
     // Initialize control bar key height
     let savedControlBarKeyHeight = userDefaultsShared.double(forKey: "controlBarKeyHeight")
     self.controlBarKeyHeight = savedControlBarKeyHeight != 0 ? savedControlBarKeyHeight : 30
+    
+      // Initialize control bar key height
+    let savedAsciiKeyHeight = userDefaultsShared.double(forKey: "asciiKeyHeight")
+    self.asciiKeyHeight = savedAsciiKeyHeight != 0 ? savedAsciiKeyHeight : 38
+
+    // ===== end load settings =====
 
     // Initialize activeCategory
     if let savedCategory = userDefaultsStandard.string(forKey: "lastActiveCategory"),
